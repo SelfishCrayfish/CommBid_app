@@ -1,0 +1,76 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@android:color/white"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/logoImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="183dp"
+        android:layout_marginBottom="24dp"
+        android:src="@drawable/logo" />
+
+    <EditText
+        android:id="@+id/loginEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="90dp"
+        android:layout_marginRight="90dp"
+        android:layout_marginBottom="16dp"
+        android:background="@android:drawable/edit_text"
+        android:hint="Login"
+        android:padding="12dp" />
+
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="90dp"
+        android:layout_marginRight="90dp"
+        android:background="@android:drawable/edit_text" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="40dp">
+
+        <ImageView
+            android:id="@+id/facebookIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/fb_icon" />
+
+        <ImageView
+            android:id="@+id/instagramIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="16dp"
+            android:src="@drawable/ig_icon" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/proceedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Proceed"
+        android:background="@android:color/black"
+        android:textColor="@android:color/white"
+        android:padding="12dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="90dp"
+        android:layout_marginRight="90dp"
+        android:textAllCaps="false" />
+
+</LinearLayout>
