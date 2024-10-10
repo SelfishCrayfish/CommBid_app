@@ -12,8 +12,8 @@
 
     <ImageView
         android:id="@+id/logoImageView"
-        android:layout_width="300dp"
-        android:layout_height="100dp"
+        android:layout_width="600dp"
+        android:layout_height="200dp"
         android:src="@drawable/logo_commbid"
         app:layout_constraintEnd_toStartOf="@+id/guideline30"
         app:layout_constraintStart_toStartOf="@+id/guideline29"
@@ -21,7 +21,7 @@
 
     <EditText
         android:id="@+id/loginEditText"
-        android:layout_width="300dp"
+        android:layout_width="600dp"
         android:layout_height="wrap_content"
         android:background="@android:drawable/edit_text"
         android:hint="Login"
@@ -32,7 +32,7 @@
 
     <EditText
         android:id="@+id/passwordEditText"
-        android:layout_width="300dp"
+        android:layout_width="600dp"
         android:layout_height="wrap_content"
         android:background="@android:drawable/edit_text"
         android:hint="Password"
@@ -44,7 +44,7 @@
 
     <EditText
         android:id="@+id/repeatPasswordEditText"
-        android:layout_width="300dp"
+        android:layout_width="600dp"
         android:layout_height="wrap_content"
         android:background="@android:drawable/edit_text"
         android:hint="Repeat Password"
@@ -56,12 +56,12 @@
 
     <Button
         android:id="@+id/proceedButton"
-        android:layout_width="200dp"
+        android:layout_width="500dp"
         android:layout_height="wrap_content"
         android:background="@android:color/black"
         android:padding="12dp"
         android:text="Proceed"
-        android:textSize="20dp"
+        android:textSize="30dp"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/guideline31"
