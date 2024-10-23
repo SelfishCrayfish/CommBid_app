@@ -15,6 +15,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.KeyboardType
 import com.example.commbidapp.R
@@ -22,10 +23,13 @@ import com.example.commbidapp.R
 
 @Composable
 fun LoginScreen(onLoginSuccess: () -> Unit) {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
-    ) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        DiagonalStripesBackground(
+            color1 = SunglowColor,
+            color2 = CarrotOrangeColor,
+            stripeWidth = 15f,
+            spacing = 60f
+        )
         BoxWithConstraints(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -36,16 +40,16 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                     (screenWidth > 900.dp && screenHeight > 600.dp)
 
             if (isTablet) {
-                TabletLayout(isLandscape, onLoginSuccess)
+                LoginTabletLayout(isLandscape, onLoginSuccess)
             } else {
-                PhoneLayout(isLandscape, onLoginSuccess)
+                LoginPhoneLayout(isLandscape, onLoginSuccess)
             }
         }
     }
 }
 
 @Composable
-fun TabletLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
+fun LoginTabletLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -72,7 +76,13 @@ fun TabletLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
             onValueChange = { email = it },
             label = { Text("Email") },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.width(400.dp),
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.White,
+                unfocusedContainerColor = Color.White,
+                disabledContainerColor = Color.Gray,
+                errorContainerColor = Color.Red,
+            ),
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -82,7 +92,13 @@ fun TabletLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
             onValueChange = { password = it },
             label = { Text("Password") },
             visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.width(400.dp),
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.White,
+                unfocusedContainerColor = Color.White,
+                disabledContainerColor = Color.Gray,
+                errorContainerColor = Color.Red,
+            ),
         )
 
         Spacer(modifier = Modifier.height(30.dp))
@@ -90,7 +106,7 @@ fun TabletLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
         // Ikony Facebook i Instagram
         Row(
             horizontalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.width(200.dp)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.fb_icon),
@@ -119,74 +135,183 @@ fun TabletLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
 }
 
 @Composable
-fun PhoneLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = if (isLandscape) Arrangement.Center else Arrangement.Top
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.logo_commbid),
-            contentDescription = "App Logo",
-            modifier = Modifier
-                .size(if (isLandscape) 200.dp else 300.dp),
-            contentScale = ContentScale.Fit
-        )
-
-        Spacer(modifier = Modifier.height(if (isLandscape) 0.dp else 100.dp))
-
-        // Add TextFields for Email and Password
-        var email by remember { mutableStateOf(TextFieldValue()) }
-        var password by remember { mutableStateOf(TextFieldValue()) }
-
-        OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text("Email") },
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Password") },
-            visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(30.dp))
-
-        // Ikony Facebook i Instagram
+fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
+    if (isLandscape) {
+        // Layout poziomy
         Row(
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            // Logo po lewej stronie
+            Image(
+                painter = painterResource(id = R.drawable.logo_commbid),
+                contentDescription = "App Logo",
+                modifier = Modifier
+                    .weight(1f)
+                    .size(200.dp),
+                contentScale = ContentScale.Fit
+            )
+
+            Spacer(modifier = Modifier.width(32.dp))
+
+            // Pola tekstowe i przycisk po prawej stronie
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                var email by remember { mutableStateOf(TextFieldValue()) }
+                var password by remember { mutableStateOf(TextFieldValue()) }
+
+                OutlinedTextField(
+                    value = email,
+                    onValueChange = { email = it },
+                    label = { Text("Email") },
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
+                    modifier = Modifier.width(400.dp),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                        disabledContainerColor = Color.Gray,
+                        errorContainerColor = Color.Red,
+                    ),
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    label = { Text("Password") },
+                    visualTransformation = PasswordVisualTransformation(),
+                    modifier = Modifier.width(400.dp),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                        disabledContainerColor = Color.Gray,
+                        errorContainerColor = Color.Red,
+                    ),
+                )
+
+                Spacer(modifier = Modifier.height(30.dp))
+
+                // Ikony Facebook i Instagram
+                Row(
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.fb_icon),
+                        contentDescription = "Facebook",
+                        modifier = Modifier.size(40.dp)
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.ig_icon),
+                        contentDescription = "Instagram",
+                        modifier = Modifier.size(40.dp)
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(30.dp))
+
+                CustomButton(
+                    text = "Proceed",
+                    onClick = {
+                        onLoginSuccess()
+                    },
+                    fontFamily = RegularFont,
+                    backgroundColor = BlueCrayolaColor,
+                    modifier = Modifier.width(250.dp)
+                )
+            }
+        }
+    } else {
+        // Layout pionowy
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
         ) {
             Image(
-                painter = painterResource(id = R.drawable.fb_icon),
-                contentDescription = "Facebook",
-                modifier = Modifier.size(40.dp)
+                painter = painterResource(id = R.drawable.logo_commbid),
+                contentDescription = "App Logo",
+                modifier = Modifier
+                    .size(300.dp),
+                contentScale = ContentScale.Fit
             )
-            Image(
-                painter = painterResource(id = R.drawable.ig_icon),
-                contentDescription = "Instagram",
-                modifier = Modifier.size(40.dp)
+
+            Spacer(modifier = Modifier.height(100.dp))
+
+            var email by remember { mutableStateOf(TextFieldValue()) }
+            var password by remember { mutableStateOf(TextFieldValue()) }
+
+            OutlinedTextField(
+                value = email,
+                onValueChange = { email = it },
+                label = { Text("Email") },
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
+                modifier = Modifier.width(400.dp),
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color.White,
+                    disabledContainerColor = Color.Gray,
+                    errorContainerColor = Color.Red,
+                ),
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            OutlinedTextField(
+                value = password,
+                onValueChange = { password = it },
+                label = { Text("Password") },
+                visualTransformation = PasswordVisualTransformation(),
+                modifier = Modifier.width(400.dp),
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color.White,
+                    disabledContainerColor = Color.Gray,
+                    errorContainerColor = Color.Red,
+                ),
+            )
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            // Ikony Facebook i Instagram
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.fb_icon),
+                    contentDescription = "Facebook",
+                    modifier = Modifier.size(40.dp)
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.ig_icon),
+                    contentDescription = "Instagram",
+                    modifier = Modifier.size(40.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            CustomButton(
+                text = "Proceed",
+                onClick = {
+                    onLoginSuccess()
+                },
+                fontFamily = RegularFont,
+                backgroundColor = BlueCrayolaColor,
+                modifier = Modifier.width(250.dp)
             )
         }
-
-        Spacer(modifier = Modifier.height(30.dp))
-
-        CustomButton(
-            text = "Proceed",
-            onClick = {
-                onLoginSuccess()
-            },
-            fontFamily = RegularFont,
-            backgroundColor = BlueCrayolaColor
-        )
     }
 }
