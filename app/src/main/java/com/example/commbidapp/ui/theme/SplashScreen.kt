@@ -1,27 +1,32 @@
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.graphics.Color
 import com.example.commbidapp.R
 import com.example.commbidapp.ui.theme.CustomButton
 import com.example.commbidapp.ui.theme.RegularFont
 import androidx.compose.foundation.layout.BoxWithConstraints
 import com.example.commbidapp.ui.theme.BlueCrayolaColor
+import com.example.commbidapp.ui.theme.CarrotOrangeColor
 import com.example.commbidapp.ui.theme.CelestialBlueColor
+import com.example.commbidapp.ui.theme.DiagonalStripesBackground
+import com.example.commbidapp.ui.theme.SunglowColor
+
 
 @Composable
-fun SplashScreen() {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
-    ) {
+fun SplashScreen(onLoginClick: () -> Unit, onRegisterClick: () -> Unit) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        DiagonalStripesBackground(
+            color1 = SunglowColor,
+            color2 = CarrotOrangeColor,
+            stripeWidth = 15f,
+            spacing = 60f
+        )
+
         BoxWithConstraints(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -32,16 +37,16 @@ fun SplashScreen() {
                     (screenWidth > 900.dp && screenHeight > 600.dp)
 
             if (isTablet) {
-                TabletLayout(isLandscape)
+                SplashTabletLayout(isLandscape, onLoginClick, onRegisterClick)
             } else {
-                PhoneLayout(isLandscape)
+                SplashPhoneLayout(isLandscape, onLoginClick, onRegisterClick)
             }
         }
     }
 }
 
 @Composable
-fun TabletLayout(isLandscape: Boolean) {
+fun SplashTabletLayout(isLandscape: Boolean, onLoginClick: () -> Unit, onRegisterClick: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -66,7 +71,9 @@ fun TabletLayout(isLandscape: Boolean) {
         ) {
             CustomButton(
                 text = "Login",
-                onClick = { },
+                onClick = {
+                    onLoginClick()
+                },
                 backgroundColor = BlueCrayolaColor,
                 fontFamily = RegularFont,
                 modifier = Modifier.width(250.dp)
@@ -74,7 +81,9 @@ fun TabletLayout(isLandscape: Boolean) {
 
             CustomButton(
                 text = "Sign up",
-                onClick = { },
+                onClick = {
+                    onRegisterClick()
+                },
                 backgroundColor = CelestialBlueColor,
                 fontFamily = RegularFont,
                 modifier = Modifier.width(250.dp)
@@ -84,7 +93,7 @@ fun TabletLayout(isLandscape: Boolean) {
 }
 
 @Composable
-fun PhoneLayout(isLandscape: Boolean) {
+fun SplashPhoneLayout(isLandscape: Boolean, onLoginClick: () -> Unit, onRegisterClick: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -109,7 +118,9 @@ fun PhoneLayout(isLandscape: Boolean) {
         ) {
             CustomButton(
                 text = "Login",
-                onClick = { },
+                onClick = {
+                    onLoginClick()
+                },
                 fontFamily = RegularFont,
                 backgroundColor = BlueCrayolaColor
 
@@ -117,7 +128,9 @@ fun PhoneLayout(isLandscape: Boolean) {
 
             CustomButton(
                 text = "Sign up",
-                onClick = { },
+                onClick = {
+                    onRegisterClick()
+                },
                 backgroundColor = CelestialBlueColor,
                 fontFamily = RegularFont
             )
