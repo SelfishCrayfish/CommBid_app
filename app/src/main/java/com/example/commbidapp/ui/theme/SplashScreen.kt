@@ -1,30 +1,32 @@
-import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.graphics.Color
 import com.example.commbidapp.R
 import com.example.commbidapp.ui.theme.CustomButton
 import com.example.commbidapp.ui.theme.RegularFont
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.ui.platform.LocalContext
-import com.example.commbidapp.LoginActivity
 import com.example.commbidapp.ui.theme.BlueCrayolaColor
+import com.example.commbidapp.ui.theme.CarrotOrangeColor
 import com.example.commbidapp.ui.theme.CelestialBlueColor
+import com.example.commbidapp.ui.theme.DiagonalStripesBackground
+import com.example.commbidapp.ui.theme.SunglowColor
+
 
 @Composable
 fun SplashScreen(onLoginClick: () -> Unit, onRegisterClick: () -> Unit) {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
-    ) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        DiagonalStripesBackground(
+            color1 = SunglowColor,
+            color2 = CarrotOrangeColor,
+            stripeWidth = 15f,
+            spacing = 60f
+        )
+
         BoxWithConstraints(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -35,16 +37,16 @@ fun SplashScreen(onLoginClick: () -> Unit, onRegisterClick: () -> Unit) {
                     (screenWidth > 900.dp && screenHeight > 600.dp)
 
             if (isTablet) {
-                TabletLayout(isLandscape, onLoginClick, onRegisterClick)
+                SplashTabletLayout(isLandscape, onLoginClick, onRegisterClick)
             } else {
-                PhoneLayout(isLandscape, onLoginClick, onRegisterClick)
+                SplashPhoneLayout(isLandscape, onLoginClick, onRegisterClick)
             }
         }
     }
 }
 
 @Composable
-fun TabletLayout(isLandscape: Boolean, onLoginClick: () -> Unit, onRegisterClick: () -> Unit) {
+fun SplashTabletLayout(isLandscape: Boolean, onLoginClick: () -> Unit, onRegisterClick: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -91,7 +93,7 @@ fun TabletLayout(isLandscape: Boolean, onLoginClick: () -> Unit, onRegisterClick
 }
 
 @Composable
-fun PhoneLayout(isLandscape: Boolean, onLoginClick: () -> Unit, onRegisterClick: () -> Unit) {
+fun SplashPhoneLayout(isLandscape: Boolean, onLoginClick: () -> Unit, onRegisterClick: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
