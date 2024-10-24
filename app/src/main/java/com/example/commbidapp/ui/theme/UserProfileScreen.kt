@@ -12,12 +12,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.example.commbidapp.R
-
-
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -26,18 +25,14 @@ fun UserProfileScreen(
     selectedImageUri: Uri?,
     onProfileImageClick: () -> Unit
 ) {
-    // Zmienna dla Nickname
     var nickname by remember { mutableStateOf("TwójNick") }
     var isEditingNickname by remember { mutableStateOf(false) }
 
-    // Zmienna dla opisu użytkownika
     var description by remember { mutableStateOf("Opis użytkownika...") }
     var isEditingDescription by remember { mutableStateOf(false) }
 
-    // Zmienna dla przełącznika Artist Switch
     var isArtistSwitchChecked by remember { mutableStateOf(false) }
 
-    // Użycie MutableState<Boolean>
     var isMenuOpen by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -60,7 +55,7 @@ fun UserProfileScreen(
                         }
                     },
                     navigationIcon = {
-                        IconButton(onClick = { /* Obsługa wyszukiwania */ }) {
+                        IconButton(onClick = { }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.lupa_narazie),
                                 contentDescription = "Search",
@@ -70,7 +65,7 @@ fun UserProfileScreen(
                         }
                     },
                     actions = {
-                        IconButton(onClick = { isMenuOpen = true }) { // Otwórz menu
+                        IconButton(onClick = { isMenuOpen = true }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.burger_menu),
                                 contentDescription = "Menu",
@@ -87,22 +82,19 @@ fun UserProfileScreen(
                 )
                 Divider(color = Color.Gray, thickness = 1.dp)
 
-                // Dodaj rozwijane menu
                 DropdownMenu(
                     expanded = isMenuOpen,
-                    onDismissRequest = { isMenuOpen = false } // Zamykanie menu po kliknięciu na tło
+                    onDismissRequest = { isMenuOpen = false }
                 ) {
                     DropdownMenuItem(
-                        text = { Text("Zmień język") },  // Dodaj tekst
+                        text = { Text(stringResource(id = R.string.change_language)) },
                         onClick = {
-                            // Obsługa zmiany języka
                             isMenuOpen = false
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text("Wyjdź") },  // Dodaj tekst
+                        text = { Text(stringResource(id = R.string.exit)) },
                         onClick = {
-                            // Obsługa wyjścia
                             isMenuOpen = false
                         }
                     )
@@ -111,7 +103,7 @@ fun UserProfileScreen(
         },
         bottomBar = {
             Column {
-                Divider(color = Color.Gray, thickness = 1.dp)  // Ciemna linia nad dolnym paskiem
+                Divider(color = Color.Gray, thickness = 1.dp)
                 BottomAppBar(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -119,7 +111,7 @@ fun UserProfileScreen(
                     containerColor = Color.White,
                     contentColor = Color.Black
                 ) {
-                    IconButton(onClick = { /* Obsługa lewej ikony na dolnym pasku */ }) {
+                    IconButton(onClick = { }) {
                         Icon(
                             painter = painterResource(id = R.drawable.home),
                             contentDescription = "Icon 1",
@@ -128,7 +120,7 @@ fun UserProfileScreen(
                         )
                     }
                     Spacer(modifier = Modifier.weight(1f))
-                    IconButton(onClick = { /* Obsługa środkowej ikony na dolnym pasku */ }) {
+                    IconButton(onClick = { }) {
                         Icon(
                             painter = painterResource(id = R.drawable.profile),
                             contentDescription = "Icon 2",
@@ -137,7 +129,7 @@ fun UserProfileScreen(
                         )
                     }
                     Spacer(modifier = Modifier.weight(1f))
-                    IconButton(onClick = { /* Obsługa prawej ikony na dolnym pasku */ }) {
+                    IconButton(onClick = { }) {
                         Icon(
                             painter = painterResource(id = R.drawable.favourite),
                             contentDescription = "Icon 3",
@@ -146,25 +138,6 @@ fun UserProfileScreen(
                         )
                     }
                 }
-
-                // Ikona "+" pojawiająca się nad dolnym paskiem, gdy "Artist Switch" jest włączony
-//                if (isArtistSwitchChecked) {
-//                    Box(
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .padding(end = 16.dp),
-//                        contentAlignment = Alignment.BottomEnd
-//                    ) {
-//                        IconButton(onClick = { /* Obsługa dodawania pracy */ }) {
-//                            Icon(
-//                                painter = painterResource(id = R.drawable.plus_icon),
-//                                contentDescription = "Add Work",
-//                                tint = Color.Black,
-//                                modifier = Modifier.size(48.dp)  // Ikona "+"
-//                            )
-//                        }
-//                    }
-//                }
             }
         }
     ) { paddingValues ->
@@ -174,7 +147,6 @@ fun UserProfileScreen(
                 .padding(paddingValues)
                 .padding(16.dp)
         ) {
-            // Profil użytkownika
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -189,7 +161,7 @@ fun UserProfileScreen(
                     contentScale = ContentScale.FillBounds
                 )
 
-                Spacer(modifier = Modifier.width(16.dp))  // Dodany margines pomiędzy zdjęciem a nickiem
+                Spacer(modifier = Modifier.width(16.dp))
 
                 Column(
                     modifier = Modifier.weight(1f)
@@ -198,7 +170,7 @@ fun UserProfileScreen(
                         OutlinedTextField(
                             value = nickname,
                             onValueChange = { newNickname -> nickname = newNickname },
-                            label = { Text("Nickname") },
+                            label = { Text(stringResource(id = R.string.nickname )) },
                             modifier = Modifier.fillMaxWidth()
                         )
                     } else {
@@ -210,7 +182,7 @@ fun UserProfileScreen(
                     }
 
                     Text(
-                        text = "@uzytkownik123",
+                        text = stringResource(id = R.string.default_username),
                         color = Color.Gray
                     )
                 }
@@ -234,7 +206,6 @@ fun UserProfileScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Sekcja opisu użytkownika
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.Top
@@ -243,7 +214,7 @@ fun UserProfileScreen(
                     OutlinedTextField(
                         value = description,
                         onValueChange = { newDescription -> description = newDescription },
-                        label = { Text("Description") },
+                        label = { Text(stringResource(id = R.string.description)) },
                         modifier = Modifier
                             .weight(1f)
                             .height(150.dp)
@@ -278,7 +249,6 @@ fun UserProfileScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Sekcja przełącznika Artist Switch
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
@@ -293,7 +263,7 @@ fun UserProfileScreen(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Artist Switch",
+                    text = stringResource(id = R.string.artist_switch),
                     color = Color.Black,
                     fontSize = 18.sp
                 )
@@ -301,20 +271,19 @@ fun UserProfileScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Tutaj dodajemy ikonę "+" gdy przełącznik jest włączony
             if (isArtistSwitchChecked) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(end = 16.dp, bottom = 16.dp),
-                    contentAlignment = Alignment.BottomEnd  // Wyrównanie do prawego dolnego rogu
+                    contentAlignment = Alignment.BottomEnd
                 ) {
-                    IconButton(onClick = { /* Obsługa dodawania pracy */ }) {
+                    IconButton(onClick = { }) {
                         Icon(
                             painter = painterResource(id = R.drawable.plus_icon),
                             contentDescription = "Add Work",
                             tint = Color.Black,
-                            modifier = Modifier.size(48.dp)  // Ikona "+"
+                            modifier = Modifier.size(48.dp)
                         )
                     }
                 }
