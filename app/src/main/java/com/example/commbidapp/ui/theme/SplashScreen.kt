@@ -10,7 +10,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.commbidapp.R
 import androidx.compose.foundation.layout.BoxWithConstraints
-
+import androidx.compose.ui.res.stringResource
 
 
 @Composable
@@ -66,7 +66,7 @@ fun SplashTabletLayout(isLandscape: Boolean, onLoginClick: () -> Unit, onRegiste
             modifier = Modifier.fillMaxWidth()
         ) {
             CustomButton(
-                text = "Login",
+                text = stringResource(id = R.string.login),
                 onClick = {
                     onLoginClick()
                 },
@@ -76,7 +76,7 @@ fun SplashTabletLayout(isLandscape: Boolean, onLoginClick: () -> Unit, onRegiste
             )
 
             CustomButton(
-                text = "Sign up",
+                text = stringResource(id = R.string.signup),
                 onClick = {
                     onRegisterClick()
                 },
@@ -113,7 +113,7 @@ fun SplashPhoneLayout(isLandscape: Boolean, onLoginClick: () -> Unit, onRegister
             modifier = Modifier.fillMaxWidth()
         ) {
             CustomButton(
-                text = "Login",
+                text = stringResource(id = R.string.login),
                 onClick = {
                     onLoginClick()
                 },
@@ -123,7 +123,7 @@ fun SplashPhoneLayout(isLandscape: Boolean, onLoginClick: () -> Unit, onRegister
             )
 
             CustomButton(
-                text = "Sign up",
+                text = stringResource(id = R.string.signup),
                 onClick = {
                     onRegisterClick()
                 },

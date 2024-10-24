@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
@@ -62,7 +63,6 @@ fun RegisterTabletLayout(isLandscape: Boolean, onRegisterSuccess: () -> Unit) {
 
         Spacer(modifier = Modifier.height(if (isLandscape) 0.dp else 100.dp))
 
-        // Add TextFields for Email, Password and Confirm Password
         var email by remember { mutableStateOf(TextFieldValue()) }
         var password by remember { mutableStateOf(TextFieldValue()) }
         var confirmPassword by remember { mutableStateOf(TextFieldValue()) }
@@ -86,7 +86,7 @@ fun RegisterTabletLayout(isLandscape: Boolean, onRegisterSuccess: () -> Unit) {
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("Password") },
+            label = { Text(stringResource(id = R.string.password)) },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.width(400.dp),
             colors = TextFieldDefaults.colors(
@@ -102,7 +102,7 @@ fun RegisterTabletLayout(isLandscape: Boolean, onRegisterSuccess: () -> Unit) {
         OutlinedTextField(
             value = confirmPassword,
             onValueChange = { confirmPassword = it },
-            label = { Text("Confirm Password") },
+            label = { Text(stringResource(id = R.string.confirm_password)) },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.width(400.dp),
             colors = TextFieldDefaults.colors(
@@ -115,7 +115,6 @@ fun RegisterTabletLayout(isLandscape: Boolean, onRegisterSuccess: () -> Unit) {
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        // Ikony Facebook i Instagram
         Row(
             horizontalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier.width(200.dp)
@@ -135,7 +134,7 @@ fun RegisterTabletLayout(isLandscape: Boolean, onRegisterSuccess: () -> Unit) {
         Spacer(modifier = Modifier.height(30.dp))
 
         CustomButton(
-            text = "Proceed",
+            text = stringResource(id = R.string.proceed),
             onClick = {
                 onRegisterSuccess()
             },
@@ -149,7 +148,6 @@ fun RegisterTabletLayout(isLandscape: Boolean, onRegisterSuccess: () -> Unit) {
 @Composable
 fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: () -> Unit) {
     if (isLandscape) {
-        // Layout poziomy
         Row(
             modifier = Modifier
                 .fillMaxSize()
@@ -157,7 +155,6 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            // Logo po lewej stronie
             Image(
                 painter = painterResource(id = R.drawable.logo_commbid),
                 contentDescription = "App Logo",
@@ -169,7 +166,6 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: () -> Unit) {
 
             Spacer(modifier = Modifier.width(32.dp))
 
-            // Pola tekstowe i przyciski po prawej stronie
             Column(
                 modifier = Modifier
                     .weight(1f),
@@ -199,7 +195,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: () -> Unit) {
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it },
-                    label = { Text("Password") },
+                    label = { Text(stringResource(id = R.string.password)) },
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier.width(400.dp),
                     colors = TextFieldDefaults.colors(
@@ -215,7 +211,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: () -> Unit) {
                 OutlinedTextField(
                     value = confirmPassword,
                     onValueChange = { confirmPassword = it },
-                    label = { Text("Confirm Password") },
+                    label = { Text(stringResource(id = R.string.confirm_password)) },
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier.width(400.dp),
                     colors = TextFieldDefaults.colors(
@@ -228,7 +224,6 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: () -> Unit) {
 
                 Spacer(modifier = Modifier.height(15.dp))
 
-                // Ikony Facebook i Instagram
                 Row(
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     modifier = Modifier.fillMaxWidth()
@@ -248,7 +243,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: () -> Unit) {
                 Spacer(modifier = Modifier.height(15.dp))
 
                 CustomButton(
-                    text = "Proceed",
+                    text = stringResource(id = R.string.proceed),
                     onClick = {
                         onRegisterSuccess()
                     },
@@ -259,7 +254,6 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: () -> Unit) {
             }
         }
     } else {
-        // Layout pionowy
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -300,7 +294,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: () -> Unit) {
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Password") },
+                label = { Text(stringResource(id = R.string.password)) },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.width(400.dp),
                 colors = TextFieldDefaults.colors(
@@ -316,7 +310,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: () -> Unit) {
             OutlinedTextField(
                 value = confirmPassword,
                 onValueChange = { confirmPassword = it },
-                label = { Text("Confirm Password") },
+                label = { Text(stringResource(id = R.string.confirm_password)) },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.width(400.dp),
                 colors = TextFieldDefaults.colors(
@@ -348,7 +342,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: () -> Unit) {
             Spacer(modifier = Modifier.height(30.dp))
 
             CustomButton(
-                text = "Proceed",
+                text = stringResource(id = R.string.proceed),
                 onClick = {
                     onRegisterSuccess()
                 },
