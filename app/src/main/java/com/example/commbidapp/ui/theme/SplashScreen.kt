@@ -1,3 +1,5 @@
+package com.example.commbidapp.ui.theme
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
@@ -7,14 +9,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.commbidapp.R
-import com.example.commbidapp.ui.theme.CustomButton
-import com.example.commbidapp.ui.theme.RegularFont
 import androidx.compose.foundation.layout.BoxWithConstraints
-import com.example.commbidapp.ui.theme.BlueCrayolaColor
-import com.example.commbidapp.ui.theme.CarrotOrangeColor
-import com.example.commbidapp.ui.theme.CelestialBlueColor
-import com.example.commbidapp.ui.theme.DiagonalStripesBackground
-import com.example.commbidapp.ui.theme.SunglowColor
+
 
 
 @Composable
