@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CommBidApp</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_user_profile">UserProfileActivity</string>
+    <string name="title_activity_someone_profile">SomeoneProfileActivity</string>
+    <string name="title_activity_commission">CommissionActivity</string>
+    <string name="choose_desired_artstyle">Wybierz pożądany styl artystyczny</string>
+    <string name="artstyle_realism">Realizm</string>
+    <string name="artstyle_cartoon">Kreskówka</string>
+    <string name="artstyle_abstract">Abstrakcja</string>
+    <string name="artstyle_impressionism">Impresjonizm</string>
+    <string name="artstyle_name">Styl artystyczny</string>
+    <string name="describe_in_detail_text">Opisz szczegółowo, co dokładnie ma przedstawiać sztuka:</string>
+    <string name="scene_characters_etc">Scena, postacie, itp.</string>
+    <string name="give_any_extra_detail">Podaj dodatkowe szczegóły, które chciałbyś uwzględnić:</string>
+    <string name="color_pref_background_etc">Preferencje kolorystyczne, tło, itp.</string>
+    <string name="confirm_and_choose_payment">Potwierdź i wybierz metodę płatności</string>
+    <string name="password">Hasło</string>
+    <string name="confirm_password">Potwierdź hasło</string>
+    <string name="proceed">Kontynuuj</string>
+    <string name="search">Szukaj</string>
+    <string name="default_username">\@defuser123</string>
+    <string name="follow">Obserwuj</string>
+    <string name="portfolio">Portfolio</string>
+    <string name="comission">Zlecenie</string>
+    <string name="login">Zaloguj się</string>
+    <string name="signup">Zarejestruj się</string>
+    <string name="change_language">Zmień język</string>
+    <string name="exit">Wyjdź</string>
+    <string name="nickname">Pseudonim</string>
+    <string name="description">Opis</string>
+    <string name="artist_switch">Przełącznik Artysty</string>
+</resources>

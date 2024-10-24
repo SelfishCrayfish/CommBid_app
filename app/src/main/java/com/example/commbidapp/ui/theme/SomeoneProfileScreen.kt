@@ -12,6 +12,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.commbidapp.R
@@ -21,14 +22,11 @@ import coil3.compose.AsyncImage
 @Composable
 fun SomeoneProfileScreen(
     selectedImageUri: Uri?,
-    onProfileImageClick: () -> Unit,
-    onButtonClick: () -> Unit
+    onProfileImageClick: () -> Unit
 ) {
     var nickname by remember { mutableStateOf("ArtystaNick") }
-    var isEditingNickname by remember { mutableStateOf(false) }
 
     var description by remember { mutableStateOf("Opis artysty...") }
-    var isEditingDescription by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -50,17 +48,17 @@ fun SomeoneProfileScreen(
                         }
                     },
                     navigationIcon = {
-                        IconButton(onClick = { /* Obsługa wyszukiwania */ }) {
+                        IconButton(onClick = { }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.lupa_narazie),
-                                contentDescription = "Search",
+                                contentDescription = stringResource(id = R.string.search),
                                 tint = Color.Black,
                                 modifier = Modifier.size(32.dp)
                             )
                         }
                     },
                     actions = {
-                        IconButton(onClick = { /* Obsługa burger menu */ }) {
+                        IconButton(onClick = { }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.burger_menu),
                                 contentDescription = "Menu",
@@ -88,7 +86,7 @@ fun SomeoneProfileScreen(
                     containerColor = Color.White,
                     contentColor = Color.Black
                 ) {
-                    IconButton(onClick = { /* Obsługa lewej ikony */ }) {
+                    IconButton(onClick = { }) {
                         Icon(
                             painter = painterResource(id = R.drawable.home),
                             contentDescription = "Icon 1",
@@ -97,7 +95,7 @@ fun SomeoneProfileScreen(
                         )
                     }
                     Spacer(modifier = Modifier.weight(1f))
-                    IconButton(onClick = { /* Obsługa środkowej ikony */ }) {
+                    IconButton(onClick = { }) {
                         Icon(
                             painter = painterResource(id = R.drawable.profile),
                             contentDescription = "Icon 2",
@@ -106,7 +104,7 @@ fun SomeoneProfileScreen(
                         )
                     }
                     Spacer(modifier = Modifier.weight(1f))
-                    IconButton(onClick = { /* Obsługa prawej ikony */ }) {
+                    IconButton(onClick = { }) {
                         Icon(
                             painter = painterResource(id = R.drawable.favourite),
                             contentDescription = "Icon 3",
@@ -138,7 +136,7 @@ fun SomeoneProfileScreen(
                     contentScale = ContentScale.FillBounds
                 )
 
-                Spacer(modifier = Modifier.width(16.dp))  // Dodany margines pomiędzy zdjęciem a nickiem
+                Spacer(modifier = Modifier.width(16.dp))
 
 
                 Column(
@@ -151,16 +149,18 @@ fun SomeoneProfileScreen(
                     )
 
                     Text(
-                        text = "@artysta123",
+                        text = stringResource(id = R.string.default_username),
                         color = Color.Gray
                     )
                 }
 
-                IconButton(onClick = { /* Follow button click */ }) {
-                    Button(onClick = { /* Follow action */ }) {
-                        Text("Follow")
-                    }
-                }
+                CustomButton(
+                    text = stringResource(id = R.string.follow),
+                    onClick = { },
+                    modifier = Modifier.width(170.dp),
+                    backgroundColor = CelestialBlueColor,
+                    fontFamily = RegularFont
+                )
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -173,37 +173,27 @@ fun SomeoneProfileScreen(
                     .padding(end = 16.dp)
             )
 
-            Spacer(modifier = Modifier.height(32.dp))
-
-            // Sekcja kontaktowa zamiast Artist Switch
-            Text(text = "Email: artysta@example.com", color = Color.Black, fontSize = 16.sp)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "Instagram: @artysta_ig", color = Color.Black, fontSize = 16.sp)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "Pinterest: @artysta_pin", color = Color.Black, fontSize = 16.sp)
-
             Spacer(modifier = Modifier.weight(1f))
 
-            // Dwa przyciski nad bottom bar
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Button(
-                    onClick = { /* Portfolio action */ },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
-                ) {
-                    Text("Portfolio", color = Color.White)
-                }
+                CustomButton(
+                    text = stringResource(id = R.string.portfolio),
+                    onClick = { },
+                    backgroundColor = CelestialBlueColor,
+                    fontFamily = RegularFont
+                )
 
-                Button(
-                    onClick = {onButtonClick()},
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
-                ) {
-                    Text("Commission", color = Color.White)
-                }
+                CustomButton(
+                    text = stringResource(id = R.string.comission),
+                    onClick = { },
+                    backgroundColor = CelestialBlueColor,
+                    fontFamily = RegularFont
+                )
             }
         }
     }

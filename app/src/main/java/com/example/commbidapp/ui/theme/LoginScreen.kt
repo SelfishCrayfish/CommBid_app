@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.KeyboardType
 import com.example.commbidapp.R
@@ -67,7 +68,6 @@ fun LoginTabletLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
 
         Spacer(modifier = Modifier.height(if (isLandscape) 0.dp else 100.dp))
 
-        // Add TextFields for Email and Password
         var email by remember { mutableStateOf(TextFieldValue()) }
         var password by remember { mutableStateOf(TextFieldValue()) }
 
@@ -90,7 +90,7 @@ fun LoginTabletLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("Password") },
+            label = { Text(stringResource(id = R.string.password)) },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.width(400.dp),
             colors = TextFieldDefaults.colors(
@@ -103,7 +103,6 @@ fun LoginTabletLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        // Ikony Facebook i Instagram
         Row(
             horizontalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier.width(200.dp)
@@ -123,7 +122,7 @@ fun LoginTabletLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
         Spacer(modifier = Modifier.height(30.dp))
 
         CustomButton(
-            text = "Proceed",
+            text = stringResource(id = R.string.proceed),
             onClick = {
                 onLoginSuccess()
             },
@@ -137,7 +136,6 @@ fun LoginTabletLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
 @Composable
 fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
     if (isLandscape) {
-        // Layout poziomy
         Row(
             modifier = Modifier
                 .fillMaxSize()
@@ -145,7 +143,6 @@ fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            // Logo po lewej stronie
             Image(
                 painter = painterResource(id = R.drawable.logo_commbid),
                 contentDescription = "App Logo",
@@ -157,7 +154,6 @@ fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
 
             Spacer(modifier = Modifier.width(32.dp))
 
-            // Pola tekstowe i przycisk po prawej stronie
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -187,7 +183,7 @@ fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it },
-                    label = { Text("Password") },
+                    label = { Text(stringResource(id = R.string.password)) },
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier.width(400.dp),
                     colors = TextFieldDefaults.colors(
@@ -200,7 +196,6 @@ fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
 
                 Spacer(modifier = Modifier.height(30.dp))
 
-                // Ikony Facebook i Instagram
                 Row(
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     modifier = Modifier.fillMaxWidth()
@@ -220,7 +215,7 @@ fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
                 Spacer(modifier = Modifier.height(30.dp))
 
                 CustomButton(
-                    text = "Proceed",
+                    text = stringResource(id = R.string.proceed),
                     onClick = {
                         onLoginSuccess()
                     },
@@ -231,7 +226,6 @@ fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
             }
         }
     } else {
-        // Layout pionowy
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -271,7 +265,7 @@ fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Password") },
+                label = { Text(stringResource(id = R.string.password)) },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.width(400.dp),
                 colors = TextFieldDefaults.colors(
@@ -284,7 +278,6 @@ fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            // Ikony Facebook i Instagram
             Row(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier.fillMaxWidth()
@@ -304,7 +297,7 @@ fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
             Spacer(modifier = Modifier.height(30.dp))
 
             CustomButton(
-                text = "Proceed",
+                text = stringResource(id = R.string.proceed),
                 onClick = {
                     onLoginSuccess()
                 },
