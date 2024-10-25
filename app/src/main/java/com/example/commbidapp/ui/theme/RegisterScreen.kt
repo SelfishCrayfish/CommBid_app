@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.example.commbidapp.R
 
 @Composable
-fun RegisterScreen(onRegisterSuccess: () -> Unit) {
+fun RegisterScreen(onRegisterSuccess: (String, String, String) -> Unit) {
     Box(modifier = Modifier.fillMaxSize()) {
         DiagonalStripesBackground(
             color1 = SunglowColor,
@@ -45,7 +45,10 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit) {
 }
 
 @Composable
-fun RegisterTabletLayout(isLandscape: Boolean, onRegisterSuccess: () -> Unit) {
+fun RegisterTabletLayout(
+    isLandscape: Boolean,
+    onRegisterSuccess: (String, String, String) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -136,7 +139,7 @@ fun RegisterTabletLayout(isLandscape: Boolean, onRegisterSuccess: () -> Unit) {
         CustomButton(
             text = stringResource(id = R.string.proceed),
             onClick = {
-                onRegisterSuccess()
+                onRegisterSuccess(email.text, password.text, confirmPassword.text)
             },
             backgroundColor = BlueCrayolaColor,
             fontFamily = RegularFont,
@@ -146,7 +149,7 @@ fun RegisterTabletLayout(isLandscape: Boolean, onRegisterSuccess: () -> Unit) {
 }
 
 @Composable
-fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: () -> Unit) {
+fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String, String) -> Unit) {
     if (isLandscape) {
         Row(
             modifier = Modifier
@@ -245,7 +248,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: () -> Unit) {
                 CustomButton(
                     text = stringResource(id = R.string.proceed),
                     onClick = {
-                        onRegisterSuccess()
+                        onRegisterSuccess(email.text, password.text, confirmPassword.text)
                     },
                     fontFamily = RegularFont,
                     backgroundColor = BlueCrayolaColor,
@@ -344,7 +347,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: () -> Unit) {
             CustomButton(
                 text = stringResource(id = R.string.proceed),
                 onClick = {
-                    onRegisterSuccess()
+                    onRegisterSuccess(email.text, password.text, confirmPassword.text)
                 },
                 fontFamily = RegularFont,
                 backgroundColor = BlueCrayolaColor,

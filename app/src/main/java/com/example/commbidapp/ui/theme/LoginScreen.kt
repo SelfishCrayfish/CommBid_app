@@ -3,27 +3,22 @@ package com.example.commbidapp.ui.theme
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import androidx.compose.runtime.remember
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.KeyboardType
 import com.example.commbidapp.R
 
-
 @Composable
-fun LoginScreen(onLoginSuccess: () -> Unit) {
+fun LoginScreen(onLoginSuccess: (String, String) -> Unit) {
     Box(modifier = Modifier.fillMaxSize()) {
         DiagonalStripesBackground(
             color1 = SunglowColor,
@@ -50,7 +45,10 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
 }
 
 @Composable
-fun LoginTabletLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
+fun LoginTabletLayout(isLandscape: Boolean, onLoginSuccess: (String, String) -> Unit) {
+    var email by remember { mutableStateOf(TextFieldValue()) }
+    var password by remember { mutableStateOf(TextFieldValue()) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -61,22 +59,23 @@ fun LoginTabletLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
         Image(
             painter = painterResource(id = R.drawable.logo_commbid),
             contentDescription = "App Logo",
-            modifier = Modifier
-                .size(if (isLandscape) 300.dp else 350.dp),
+            modifier = Modifier.size(if (isLandscape) 300.dp else 350.dp),
             contentScale = ContentScale.Fit
         )
 
         Spacer(modifier = Modifier.height(if (isLandscape) 0.dp else 100.dp))
 
-        var email by remember { mutableStateOf(TextFieldValue()) }
-        var password by remember { mutableStateOf(TextFieldValue()) }
-
         OutlinedTextField(
             value = email,
-            onValueChange = { email = it },
+            onValueChange = {
+                if (it.text.length <= 50) {
+                    email = it
+                }
+            },
             label = { Text("Email") },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
             modifier = Modifier.width(400.dp),
+            singleLine = true,
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color.White,
                 unfocusedContainerColor = Color.White,
@@ -89,10 +88,15 @@ fun LoginTabletLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
 
         OutlinedTextField(
             value = password,
-            onValueChange = { password = it },
+            onValueChange = {
+                if (it.text.length <= 20) {
+                    password = it
+                }
+            },
             label = { Text(stringResource(id = R.string.password)) },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.width(400.dp),
+            singleLine = true,
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color.White,
                 unfocusedContainerColor = Color.White,
@@ -124,7 +128,7 @@ fun LoginTabletLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
         CustomButton(
             text = stringResource(id = R.string.proceed),
             onClick = {
-                onLoginSuccess()
+                onLoginSuccess(email.text, password.text)
             },
             backgroundColor = BlueCrayolaColor,
             fontFamily = RegularFont,
@@ -134,7 +138,10 @@ fun LoginTabletLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
 }
 
 @Composable
-fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
+fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: (String, String) -> Unit) {
+    var email by remember { mutableStateOf(TextFieldValue()) }
+    var password by remember { mutableStateOf(TextFieldValue()) }
+
     if (isLandscape) {
         Row(
             modifier = Modifier
@@ -161,15 +168,17 @@ fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                var email by remember { mutableStateOf(TextFieldValue()) }
-                var password by remember { mutableStateOf(TextFieldValue()) }
-
                 OutlinedTextField(
                     value = email,
-                    onValueChange = { email = it },
+                    onValueChange = {
+                        if (it.text.length <= 50) {
+                            email = it
+                        }
+                    },
                     label = { Text("Email") },
                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
                     modifier = Modifier.width(400.dp),
+                    singleLine = true,
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.White,
                         unfocusedContainerColor = Color.White,
@@ -182,10 +191,15 @@ fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
 
                 OutlinedTextField(
                     value = password,
-                    onValueChange = { password = it },
+                    onValueChange = {
+                        if (it.text.length <= 20) {
+                            password = it
+                        }
+                    },
                     label = { Text(stringResource(id = R.string.password)) },
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier.width(400.dp),
+                    singleLine = true,
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.White,
                         unfocusedContainerColor = Color.White,
@@ -217,7 +231,7 @@ fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
                 CustomButton(
                     text = stringResource(id = R.string.proceed),
                     onClick = {
-                        onLoginSuccess()
+                        onLoginSuccess(email.text, password.text)
                     },
                     fontFamily = RegularFont,
                     backgroundColor = BlueCrayolaColor,
@@ -243,15 +257,17 @@ fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
 
             Spacer(modifier = Modifier.height(100.dp))
 
-            var email by remember { mutableStateOf(TextFieldValue()) }
-            var password by remember { mutableStateOf(TextFieldValue()) }
-
             OutlinedTextField(
                 value = email,
-                onValueChange = { email = it },
+                onValueChange = {
+                    if (it.text.length <= 50) {
+                        email = it
+                    }
+                },
                 label = { Text("Email") },
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
                 modifier = Modifier.width(400.dp),
+                singleLine = true,
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.White,
                     unfocusedContainerColor = Color.White,
@@ -264,10 +280,15 @@ fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
 
             OutlinedTextField(
                 value = password,
-                onValueChange = { password = it },
+                onValueChange = {
+                    if (it.text.length <= 20) {
+                        password = it
+                    }
+                },
                 label = { Text(stringResource(id = R.string.password)) },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.width(400.dp),
+                singleLine = true,
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.White,
                     unfocusedContainerColor = Color.White,
@@ -299,7 +320,7 @@ fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: () -> Unit) {
             CustomButton(
                 text = stringResource(id = R.string.proceed),
                 onClick = {
-                    onLoginSuccess()
+                    onLoginSuccess(email.text, password.text)
                 },
                 fontFamily = RegularFont,
                 backgroundColor = BlueCrayolaColor,
