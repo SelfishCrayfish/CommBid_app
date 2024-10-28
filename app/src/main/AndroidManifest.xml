@@ -13,6 +13,11 @@
         android:theme="@style/Theme.CommBidApp"
         tools:targetApi="31">
         <activity
+            android:name=".WallActivity"
+            android:exported="false"
+            android:label="@string/title_activity_wall"
+            android:theme="@style/Theme.CommBidApp" />
+        <activity
             android:name=".CommissionActivity"
             android:exported="false"
             android:label="@string/title_activity_commission"

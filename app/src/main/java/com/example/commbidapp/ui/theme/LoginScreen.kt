@@ -132,7 +132,7 @@ fun LoginTabletLayout(isLandscape: Boolean, onLoginSuccess: (String, String) -> 
             },
             backgroundColor = BlueCrayolaColor,
             fontFamily = RegularFont,
-            modifier = Modifier.width(250.dp)
+            modifier = Modifier.width(250.dp),
         )
     }
 }
