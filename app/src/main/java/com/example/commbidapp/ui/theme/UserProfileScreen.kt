@@ -1,6 +1,5 @@
 package com.example.commbidapp.ui.theme
 
-import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -20,14 +19,13 @@ import com.example.commbidapp.R
 
 
 @Composable
-fun UserProfileScreen(
-    selectedImageUri: Uri?,
-    onProfileImageClick: () -> Unit
-) {
-    var nickname by remember { mutableStateOf("TwójNick") }
+fun UserProfileScreen() {
+    val defaultUsername = stringResource(R.string.default_nickname)
+    val defaultDescription = stringResource(R.string.your_description)
+    var nickname by remember { mutableStateOf(defaultUsername) }
     var isEditingNickname by remember { mutableStateOf(false) }
 
-    var description by remember { mutableStateOf("Opis użytkownika...") }
+    var description by remember { mutableStateOf(defaultDescription) }
     var isEditingDescription by remember { mutableStateOf(false) }
 
     var isArtistSwitchChecked by remember { mutableStateOf(false) }
@@ -42,11 +40,11 @@ fun UserProfileScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
-                model = selectedImageUri ?: R.drawable.profile_pic,
+                model = R.drawable.profile_pic,
                 contentDescription = "Profile Image",
                 modifier = Modifier
                     .size(90.dp)
-                    .clickable { onProfileImageClick() }
+                    .clickable { /* TODO */ }
                     .clip(CircleShape),
                 contentScale = ContentScale.FillBounds
             )

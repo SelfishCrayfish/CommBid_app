@@ -10,24 +10,12 @@ import androidx.compose.runtime.mutableStateOf
 import com.example.commbidapp.ui.theme.SomeoneProfileScreen
 
 class SomeoneProfileActivity : ComponentActivity() {
-
-    private val selectImageLauncher = registerForActivityResult(
-        ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        uri?.let {
-            selectedImageUri.value = it
-        }
-    }
-
-    private val selectedImageUri = mutableStateOf<Uri?>(null)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            SomeoneProfileScreen(
-                onCommissionButtonClick = { navigateToCommission() },
-                selectedImageUri = selectedImageUri.value,
-            ) { selectImageLauncher.launch("image/*") }
+            SomeoneProfileScreen(onCommissionButtonClick = {
+                navigateToCommission()
+            })
         }
     }
 

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CommBidApp</string>
     <string name="title_activity_login">LoginActivity</string>
@@ -31,4 +32,7 @@
     <string name="nickname">Nickname</string>
     <string name="description">Description</string>
     <string name="artist_switch">Artist Switch</string>
+    <string name="default_nickname">DefaultUsername</string>
+    <string name="your_description">Your description…</string>
+    <string name="title_activity_wall">WallActivity</string>
 </resources>

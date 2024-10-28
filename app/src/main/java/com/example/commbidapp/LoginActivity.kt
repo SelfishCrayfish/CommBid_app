@@ -1,5 +1,6 @@
 package com.example.commbidapp
 
+import com.example.commbidapp.ui.theme.PagerScreen
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -27,16 +28,13 @@ class LoginActivity : ComponentActivity() {
                     }
 
                     else -> {
-                        navigateToUserProfile()
+                        setContent {
+                            PagerScreen()
+                        }
                     }
                 }
             })
         }
-    }
-
-    private fun navigateToUserProfile() {
-        val intent = Intent(this, UserProfileActivity::class.java)
-        startActivity(intent)
     }
 
     private fun getEmailValidationError(email: String): String? {

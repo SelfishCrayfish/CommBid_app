@@ -32,4 +32,6 @@
     <string name="nickname">Pseudonim</string>
     <string name="description">Opis</string>
     <string name="artist_switch">Przełącznik Artysty</string>
+    <string name="default_nickname">DomyślnyUsername</string>
+    <string name="your_description">Twój opis…</string>
 </resources>
