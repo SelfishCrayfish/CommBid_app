@@ -21,8 +21,6 @@ import coil3.compose.AsyncImage
 @Composable
 fun SomeoneProfileScreen(
     onCommissionButtonClick: () -> Unit,
-    selectedImageUri: Uri?,
-    onProfileImageClick: () -> Unit
 ) {
     var nickname by remember { mutableStateOf("ArtystaNick") }
 
@@ -38,11 +36,11 @@ fun SomeoneProfileScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
-                model = selectedImageUri ?: R.drawable.profile_pic,
+                model = R.drawable.profile_pic,
                 contentDescription = "Profile Image",
                 modifier = Modifier
                     .size(90.dp)
-                    .clickable { onProfileImageClick() }
+                    .clickable { /* TODO */ }
                     .clip(CircleShape),
                 contentScale = ContentScale.FillBounds
             )
