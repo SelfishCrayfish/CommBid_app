@@ -22,9 +22,15 @@ fun PagerScreen() {
                 .padding(paddingValues)
         ) { page ->
             when (page) {
-                0 -> WallScreen()
-                1 -> UserProfileScreen()
-                2 -> FavoritesScreen()
+                0 -> MainScreenWithNavbar {
+                    WallScreen()
+                }
+                1 -> MainScreenWithNavbar {
+                    UserProfileScreen()
+                }
+                2 ->  MainScreenWithNavbar {
+                    FavoritesScreen()
+                }
             }
         }
     }
