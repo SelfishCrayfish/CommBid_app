@@ -1,10 +1,13 @@
 package com.example.commbidapp.ui.theme
 
+import android.content.Intent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import com.example.commbidapp.R
+import com.example.commbidapp.SomeoneProfileActivity
 
 @Composable
 fun WallScreen() {
@@ -40,7 +43,16 @@ fun WallScreen() {
 
     )
 
+    val context = LocalContext.current
+
+    // Funkcja nawigacji do profilu użytkownika
+    fun navigateToProfile(username: String) {
+        val intent = Intent(context, SomeoneProfileActivity::class.java)
+        intent.putExtra("USERNAME", username)
+        context.startActivity(intent)
+    }
+
     Column(modifier = Modifier.fillMaxSize()) {
-        WallPosts(posts = samplePosts)
+        WallPosts(posts = samplePosts, navigateToProfile = ::navigateToProfile)
     }
 }
