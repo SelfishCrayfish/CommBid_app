@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.mutableStateOf
 import com.example.commbidapp.ui.theme.CommissionScreen
+import com.example.commbidapp.ui.theme.MainScreenWithNavbar
 
 
 class CommissionActivity : ComponentActivity() {
@@ -24,7 +25,10 @@ class CommissionActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            CommissionScreen()
+//            CommissionScreen()
+            MainScreenWithNavbar {
+                CommissionScreen()
+            }
         }
     }
 }

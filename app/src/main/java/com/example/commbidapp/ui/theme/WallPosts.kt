@@ -18,20 +18,33 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.commbidapp.R
 
+//@Composable
+//fun WallPosts(posts: List<Post>) {
+//    LazyColumn(
+//        contentPadding = PaddingValues(8.dp),
+//        verticalArrangement = Arrangement.spacedBy(8.dp)
+//    ) {
+//        items(posts.size) { index ->
+//            PostItem(post = posts[index])
+//        }
+//    }
+//}
+
 @Composable
-fun WallPosts(posts: List<Post>) {
+fun WallPosts(posts: List<Post>, navigateToProfile: (String) -> Unit) {
     LazyColumn(
         contentPadding = PaddingValues(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(posts.size) { index ->
-            PostItem(post = posts[index])
+            PostItem(post = posts[index], navigateToProfile = navigateToProfile)
         }
     }
 }
 
+
 @Composable
-fun PostItem(post: Post) {
+fun PostItem(post: Post, navigateToProfile: (String) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
 
     Column(
@@ -49,6 +62,7 @@ fun PostItem(post: Post) {
                 modifier = Modifier
                     .size(40.dp)
                     .padding(4.dp)
+                    .clickable { navigateToProfile(post.username) } // Kliknięcie na zdjęcie profilowe
             )
             Spacer(modifier = Modifier.width(8.dp))
             Column {

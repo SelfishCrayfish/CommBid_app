@@ -19,13 +19,13 @@ class LoginActivity : ComponentActivity() {
                 val passwordError = getPasswordValidationError(password)
 
                 when {
-                    emailError != null -> {
-                        Toast.makeText(this, emailError, Toast.LENGTH_LONG).show()
-                    }
+//                    emailError != null -> {
+//                        Toast.makeText(this, emailError, Toast.LENGTH_LONG).show()
+//                    }
 
-                    passwordError != null -> {
-                        Toast.makeText(this, passwordError, Toast.LENGTH_LONG).show()
-                    }
+//                    passwordError != null -> {
+//                        Toast.makeText(this, passwordError, Toast.LENGTH_LONG).show()
+//                    }
 
                     else -> {
                         setContent {
