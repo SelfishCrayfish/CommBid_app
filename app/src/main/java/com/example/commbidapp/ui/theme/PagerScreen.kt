@@ -1,20 +1,36 @@
 package com.example.commbidapp.ui.theme
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 
 @Composable
 fun PagerScreen() {
-    val pagerState = rememberPagerState(pageCount = {
-        3
-    })
+    val pagerState = rememberPagerState(pageCount = { 3 })
+    var selectedPage by remember { mutableIntStateOf(0) }
 
-    Scaffold { paddingValues ->
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(pagerState.currentPage) {
+        selectedPage = pagerState.currentPage
+    }
+
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        bottomBar = {
+            BottomNavBar(
+                selectedPage = selectedPage,
+                onPageSelected = { page ->
+                    selectedPage = page
+                },
+                coroutineScope = coroutineScope,
+                pagerState = pagerState
+            )
+        }
+    ) { paddingValues ->
         HorizontalPager(
             state = pagerState,
             modifier = Modifier
@@ -22,15 +38,9 @@ fun PagerScreen() {
                 .padding(paddingValues)
         ) { page ->
             when (page) {
-                0 -> MainScreenWithNavbar {
-                    WallScreen()
-                }
-                1 -> MainScreenWithNavbar {
-                    UserProfileScreen()
-                }
-                2 ->  MainScreenWithNavbar {
-                    FavoritesScreen()
-                }
+                0 -> MainScreenWithNavbar { WallScreen() }
+                1 -> MainScreenWithNavbar { UserProfileScreen() }
+                2 -> MainScreenWithNavbar { FavoritesScreen() }
             }
         }
     }
