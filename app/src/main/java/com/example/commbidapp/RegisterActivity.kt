@@ -6,6 +6,11 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.example.commbidapp.ui.theme.RegisterScreen
+import java.sql.Timestamp
+import java.time.Instant
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import java.util.regex.Pattern
 
 class RegisterActivity : ComponentActivity() {
@@ -13,7 +18,7 @@ class RegisterActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            RegisterScreen (onRegisterSuccess = { email, password, confirmPassword ->
+            RegisterScreen(onRegisterSuccess = { email, password, confirmPassword ->
                 val emailError = getEmailValidationError(email)
                 val passwordError = getPasswordValidationError(password)
                 val confirmPasswordError = getConfirmPasswordValidationError(password, confirmPassword)
@@ -22,17 +27,49 @@ class RegisterActivity : ComponentActivity() {
                     emailError != null -> {
                         Toast.makeText(this, emailError, Toast.LENGTH_LONG).show()
                     }
-
                     passwordError != null -> {
                         Toast.makeText(this, passwordError, Toast.LENGTH_LONG).show()
                     }
-
                     confirmPasswordError != null -> {
                         Toast.makeText(this, confirmPasswordError, Toast.LENGTH_LONG).show()
                     }
-
                     else -> {
-                        navigateToUserProfile()
+                        val createdAt = ZonedDateTime.now()
+                        val formattedDate = createdAt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+
+                        // Convert ZonedDateTime to Instant (which is used by Timestamp)
+                        val timestamp = formattedDate
+
+
+                        val user = User(
+                            username = email.split("@")[0], // Example username
+                            email = email,
+                            passwordHash = password, // Normally hash the password
+                            profilePicture = null,
+                            isArtist = false,
+                            openForCommissions = false,
+                            lowestPrice = null,
+                            highestPrice = null,
+                            createdAt = timestamp,
+
+                            ratingsReceived = emptyList()
+                        )
+
+                        // Make network call to create the user
+                        RetrofitInstance.api.createUser(user).enqueue(object : retrofit2.Callback<User> {
+                            override fun onResponse(call: retrofit2.Call<User>, response: retrofit2.Response<User>) {
+                                if (response.isSuccessful) {
+                                    Toast.makeText(this@RegisterActivity, "User registered successfully!", Toast.LENGTH_LONG).show()
+                                    navigateToUserProfile()
+                                } else {
+                                    Toast.makeText(this@RegisterActivity, "Error: ${response.errorBody()?.string()}", Toast.LENGTH_LONG).show()
+                                }
+                            }
+
+                            override fun onFailure(call: retrofit2.Call<User>, t: Throwable) {
+                                Toast.makeText(this@RegisterActivity, "Failed to connect: ${t.message}", Toast.LENGTH_LONG).show()
+                            }
+                        })
                     }
                 }
             })
