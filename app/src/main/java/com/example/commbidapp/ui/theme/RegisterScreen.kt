@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.example.commbidapp.R
 
 @Composable
-fun RegisterScreen(onRegisterSuccess: (String, String, String) -> Unit) {
+fun RegisterScreen(onRegisterSuccess: (String, String, String, String) -> Unit) {
     Box(modifier = Modifier.fillMaxSize()) {
         DiagonalStripesBackground(
             color1 = SunglowColor,
@@ -47,7 +47,7 @@ fun RegisterScreen(onRegisterSuccess: (String, String, String) -> Unit) {
 @Composable
 fun RegisterTabletLayout(
     isLandscape: Boolean,
-    onRegisterSuccess: (String, String, String) -> Unit
+    onRegisterSuccess: (String, String, String, String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -66,9 +66,26 @@ fun RegisterTabletLayout(
 
         Spacer(modifier = Modifier.height(if (isLandscape) 0.dp else 100.dp))
 
+        var username by remember { mutableStateOf(TextFieldValue()) }
         var email by remember { mutableStateOf(TextFieldValue()) }
         var password by remember { mutableStateOf(TextFieldValue()) }
         var confirmPassword by remember { mutableStateOf(TextFieldValue()) }
+
+        OutlinedTextField(
+            value = username,
+            onValueChange = { username = it },
+            label = { Text(stringResource(id = R.string.username_string)) },
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
+            modifier = Modifier.width(400.dp),
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.White,
+                unfocusedContainerColor = Color.White,
+                disabledContainerColor = Color.Gray,
+                errorContainerColor = Color.Red,
+            ),
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
             value = email,
@@ -139,7 +156,7 @@ fun RegisterTabletLayout(
         CustomButton(
             text = stringResource(id = R.string.proceed),
             onClick = {
-                onRegisterSuccess(email.text, password.text, confirmPassword.text)
+                onRegisterSuccess(username.text, email.text, password.text, confirmPassword.text)
             },
             backgroundColor = BlueCrayolaColor,
             fontFamily = RegularFont,
@@ -149,7 +166,7 @@ fun RegisterTabletLayout(
 }
 
 @Composable
-fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String, String) -> Unit) {
+fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String, String, String) -> Unit) {
     if (isLandscape) {
         Row(
             modifier = Modifier
@@ -175,9 +192,26 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
+                var username by remember { mutableStateOf(TextFieldValue()) }
                 var email by remember { mutableStateOf(TextFieldValue()) }
                 var password by remember { mutableStateOf(TextFieldValue()) }
                 var confirmPassword by remember { mutableStateOf(TextFieldValue()) }
+
+                OutlinedTextField(
+                    value = username,
+                    onValueChange = { username = it },
+                    label = { Text(stringResource(id = R.string.username_string)) },
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
+                    modifier = Modifier.width(400.dp),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                        disabledContainerColor = Color.Gray,
+                        errorContainerColor = Color.Red,
+                    ),
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
 
                 OutlinedTextField(
                     value = email,
@@ -248,7 +282,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String
                 CustomButton(
                     text = stringResource(id = R.string.proceed),
                     onClick = {
-                        onRegisterSuccess(email.text, password.text, confirmPassword.text)
+                        onRegisterSuccess(username.text, email.text, password.text, confirmPassword.text)
                     },
                     fontFamily = RegularFont,
                     backgroundColor = BlueCrayolaColor,
@@ -274,9 +308,26 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String
 
             Spacer(modifier = Modifier.height(60.dp))
 
+            var username by remember { mutableStateOf(TextFieldValue()) }
             var email by remember { mutableStateOf(TextFieldValue()) }
             var password by remember { mutableStateOf(TextFieldValue()) }
             var confirmPassword by remember { mutableStateOf(TextFieldValue()) }
+
+            OutlinedTextField(
+                value = username,
+                onValueChange = { username = it },
+                label = { Text(stringResource(id = R.string.username_string)) },
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
+                modifier = Modifier.width(400.dp),
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color.White,
+                    disabledContainerColor = Color.Gray,
+                    errorContainerColor = Color.Red,
+                ),
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             OutlinedTextField(
                 value = email,
@@ -347,7 +398,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String
             CustomButton(
                 text = stringResource(id = R.string.proceed),
                 onClick = {
-                    onRegisterSuccess(email.text, password.text, confirmPassword.text)
+                    onRegisterSuccess(username.text, email.text, password.text, confirmPassword.text)
                 },
                 fontFamily = RegularFont,
                 backgroundColor = BlueCrayolaColor,

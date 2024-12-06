@@ -34,4 +34,5 @@
     <string name="artist_switch">Przełącznik Artysty</string>
     <string name="default_nickname">DomyślnyUsername</string>
     <string name="your_description">Twój opis…</string>
+    <string name="username_string">Nazwa użytkownika</string>
 </resources>
