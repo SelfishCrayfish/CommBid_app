@@ -34,5 +34,6 @@
     <string name="artist_switch">Artist Switch</string>
     <string name="default_nickname">DefaultUsername</string>
     <string name="your_description">Your description…</string>
-    <string name="title_activity_wall">WallActivity</string>
+    <string name="username_string">Username</string>
+    <string name="title_activity_wall" translatable="false">WallActivity</string>
 </resources>

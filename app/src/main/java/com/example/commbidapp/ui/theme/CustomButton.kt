@@ -27,7 +27,7 @@ fun CustomButton(
     ElevatedButton(
         onClick = onClick,
         modifier = modifier
-            .width(150.dp)
+            .width(200.dp)
             .padding(8.dp)
             .height(50.dp),
         shape = RoundedCornerShape(12.dp),

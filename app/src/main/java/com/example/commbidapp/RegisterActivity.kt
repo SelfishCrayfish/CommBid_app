@@ -6,9 +6,6 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.example.commbidapp.ui.theme.RegisterScreen
-import java.sql.Timestamp
-import java.time.Instant
-import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.regex.Pattern
@@ -18,12 +15,16 @@ class RegisterActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            RegisterScreen(onRegisterSuccess = { email, password, confirmPassword ->
+            RegisterScreen(onRegisterSuccess = { username, email, password, confirmPassword ->
+                val usernameError = getUsernameValidationError(username)
                 val emailError = getEmailValidationError(email)
                 val passwordError = getPasswordValidationError(password)
                 val confirmPasswordError = getConfirmPasswordValidationError(password, confirmPassword)
 
                 when {
+                    usernameError != null -> {
+                        Toast.makeText(this, usernameError, Toast.LENGTH_LONG).show()
+                    }
                     emailError != null -> {
                         Toast.makeText(this, emailError, Toast.LENGTH_LONG).show()
                     }
@@ -79,6 +80,15 @@ class RegisterActivity : ComponentActivity() {
     private fun navigateToUserProfile() {
         val intent = Intent(this, UserProfileActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun getUsernameValidationError(username: String): String? {
+        val usernamePattern = "[ !@#%^&*()\\[\\]|\\\\;:'\",.<>/?~`\\-+=]"
+        return if (!Pattern.matches(usernamePattern, username)) {
+            "Invalid username format. Username cannot contain special characters like ! @ # % ^ & * ( ) [ ] | \\ ; : ' \" , . < > / ? ~ ` - + = ."
+        } else {
+            null
+        }
     }
 
     private fun getEmailValidationError(email: String): String? {
