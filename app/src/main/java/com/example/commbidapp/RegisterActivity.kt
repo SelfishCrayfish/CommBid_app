@@ -43,7 +43,7 @@ class RegisterActivity : ComponentActivity() {
 
 
                         val user = User(
-                            username = email.split("@")[0], // Example username
+                            username = username, // Example username
                             email = email,
                             passwordHash = password, // Normally hash the password
                             profilePicture = null,
@@ -52,7 +52,6 @@ class RegisterActivity : ComponentActivity() {
                             lowestPrice = null,
                             highestPrice = null,
                             createdAt = timestamp,
-
                             ratingsReceived = emptyList()
                         )
 
@@ -84,7 +83,7 @@ class RegisterActivity : ComponentActivity() {
 
     private fun getUsernameValidationError(username: String): String? {
         val usernamePattern = "[ !@#%^&*()\\[\\]|\\\\;:'\",.<>/?~`\\-+=]"
-        return if (!Pattern.matches(usernamePattern, username)) {
+        return if (Pattern.matches(usernamePattern, username)) {
             "Invalid username format. Username cannot contain special characters like ! @ # % ^ & * ( ) [ ] | \\ ; : ' \" , . < > / ? ~ ` - + = ."
         } else {
             null
