@@ -83,8 +83,11 @@ class RegisterActivity : ComponentActivity() {
 
     private fun getUsernameValidationError(username: String): String? {
         val usernamePattern = "[ !@#%^&*()\\[\\]|\\\\;:'\",.<>/?~`\\-+=]"
-        return if (Pattern.matches(usernamePattern, username)) {
-            "Invalid username format. Username cannot contain special characters like ! @ # % ^ & * ( ) [ ] | \\ ; : ' \" , . < > / ? ~ ` - + = ."
+        val pattern = Pattern.compile(usernamePattern)
+        val matcher = pattern.matcher(username)
+
+        return if (matcher.find()) {
+            "Invalid username format. Username cannot contain special characters like ! @ # % ^ & * ( ) [ ] | \\ ; : ' \" , . < > / ? ~ ` - + =."
         } else {
             null
         }
