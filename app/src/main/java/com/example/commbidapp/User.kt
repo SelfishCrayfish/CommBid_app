@@ -22,3 +22,4 @@ data class User(
     val createdAt: String,
     val ratingsReceived: List<Rating> // Added ratingsReceived field
 )
+

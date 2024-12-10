@@ -37,7 +37,6 @@ class RegisterActivity : ComponentActivity() {
                     else -> {
                         val createdAt = ZonedDateTime.now()
                         val formattedDate = createdAt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-
                         // Convert ZonedDateTime to Instant (which is used by Timestamp)
                         val timestamp = formattedDate
 
@@ -56,7 +55,7 @@ class RegisterActivity : ComponentActivity() {
                         )
 
                         // Make network call to create the user
-                        RetrofitInstance.api.createUser(user).enqueue(object : retrofit2.Callback<User> {
+                        RetrofitInstance.userService.createUser(user).enqueue(object : retrofit2.Callback<User> {
                             override fun onResponse(call: retrofit2.Call<User>, response: retrofit2.Response<User>) {
                                 if (response.isSuccessful) {
                                     Toast.makeText(this@RegisterActivity, "User registered successfully!", Toast.LENGTH_LONG).show()
