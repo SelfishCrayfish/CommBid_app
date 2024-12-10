@@ -28,24 +28,18 @@ object RetrofitInstance {
         .addInterceptor(loggingInterceptor)
         .build()
 
+    val retrofit: Retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .client(client)
+        .addConverterFactory(ScalarsConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 
     val userService: UserService by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(client)
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(UserService::class.java)
+        retrofit.create(UserService::class.java)
     }
 
     val postService: PostService by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(client)
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(PostService::class.java)
+        retrofit.create(PostService::class.java)
     }
 }

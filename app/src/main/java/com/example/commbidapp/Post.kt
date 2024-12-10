@@ -7,16 +7,14 @@ import retrofit2.http.GET
 
 interface PostService {
     @GET("/api/posts")
-    fun getAllPosts(): Call<List<Post>>
+    suspend  fun getAllPosts(): List<Post>
 }
 
 
 data class Post(
-    val id: Long,
     val title: String,
     val body: String,
     val image: String,
-    val createdAt: String,
     val user: User
 )
 

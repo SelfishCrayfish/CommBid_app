@@ -1,6 +1,8 @@
 package com.example.commbidapp
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -8,27 +10,27 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PostViewModel : ViewModel() {
-    private val _posts = mutableStateOf<List<Post>>(emptyList())
-    val posts: State<List<Post>> get() = _posts
+class WallViewModel : ViewModel() {
+    private val _posts = MutableLiveData<List<Post>>()
+    val posts: LiveData<List<Post>> get() = _posts
 
-    init {
-        fetchPosts()
-    }
+    private val _isLoading = MutableLiveData<Boolean>(true)
+    val isLoading: LiveData<Boolean> get() = _isLoading
 
-    private fun fetchPosts() {
-        RetrofitInstance.postService.getAllPosts().enqueue(object : Callback<List<Post>> {
-            override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
-                if (response.isSuccessful) {
-                    _posts.value = response.body() ?: emptyList()
-                } else {
-                    // Handle API errors here
-                }
+    private val _errorMessage = MutableLiveData<String?>()
+    val errorMessage: LiveData<String?> get() = _errorMessage
+
+    fun fetchPosts() {
+        viewModelScope.launch {
+            _isLoading.value = true
+            try {
+                val fetchedPosts = RetrofitInstance.postService.getAllPosts()
+                _posts.value = fetchedPosts
+            } catch (e: Exception) {
+                _errorMessage.value = "Error: ${e.message}"
+            } finally {
+                _isLoading.value = false
             }
-
-            override fun onFailure(call: Call<List<Post>>, t: Throwable) {
-                // Handle network errors here
-            }
-        })
+        }
     }
 }

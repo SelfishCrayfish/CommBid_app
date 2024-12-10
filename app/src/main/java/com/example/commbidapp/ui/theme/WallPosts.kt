@@ -11,12 +11,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.commbidapp.Post
 import com.example.commbidapp.R
+import com.example.commbidapp.decodeBase64ToImageBitmap
 
 //@Composable
 //fun WallPosts(posts: List<Post>) {
@@ -56,25 +60,28 @@ fun PostItem(post: Post, navigateToProfile: (String) -> Unit) {
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Image(
-                painter = painterResource(id = post.profilePicture),
-                contentDescription = "Profile Picture",
-                modifier = Modifier
-                    .size(40.dp)
-                    .padding(4.dp)
-                    .clickable { navigateToProfile(post.username) } // Kliknięcie na zdjęcie profilowe
-            )
+            post.user.profilePicture?.let { decodeBase64ToImageBitmap(it) }
+                ?.let { BitmapPainter(it) }?.let {
+                    Image(
+                        painter = it,
+                        contentDescription = "Profile Picture",
+                        modifier = Modifier
+                            .size(40.dp)
+                            .padding(4.dp)
+                            .clickable { navigateToProfile(post.user.username) } // Kliknięcie na zdjęcie profilowe
+                    )
+                }
             Spacer(modifier = Modifier.width(8.dp))
             Column {
-                Text(text = post.nickname, fontSize = 16.sp, color = Color.Black)
-                Text(text = "@${post.username}", fontSize = 12.sp, color = Color.Gray)
+                Text(text = post.user.username, fontSize = 16.sp, color = Color.Black)
+                Text(text = "@${post.user.username}", fontSize = 12.sp, color = Color.Gray)
             }
         }
 
         Spacer(modifier = Modifier.height(8.dp))
 
         Image(
-            painter = painterResource(id = post.postImage),
+            painter = BitmapPainter( decodeBase64ToImageBitmap(post.image)),
             contentDescription = "Post Image",
             modifier = Modifier
                 .fillMaxWidth()
@@ -105,7 +112,7 @@ fun PostItem(post: Post, navigateToProfile: (String) -> Unit) {
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = if (expanded) post.description else post.description.take(100),
+            text = if (expanded) post.body else post.body.take(100),
             fontSize = 14.sp,
             color = Color.Black,
             overflow = TextOverflow.Ellipsis
@@ -123,11 +130,3 @@ fun PostItem(post: Post, navigateToProfile: (String) -> Unit) {
         )
     }
 }
-
-data class Post(
-    val profilePicture: Int,
-    val nickname: String,
-    val username: String,
-    val postImage: Int,
-    val description: String
-)
