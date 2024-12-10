@@ -135,24 +135,6 @@ fun RegisterTabletLayout(
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        Row(
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier.width(200.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.fb_icon),
-                contentDescription = "Facebook",
-                modifier = Modifier.size(40.dp)
-            )
-            Image(
-                painter = painterResource(id = R.drawable.ig_icon),
-                contentDescription = "Instagram",
-                modifier = Modifier.size(40.dp)
-            )
-        }
-
-        Spacer(modifier = Modifier.height(30.dp))
-
         CustomButton(
             text = stringResource(id = R.string.proceed),
             onClick = {
@@ -261,24 +243,6 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String
 
                 Spacer(modifier = Modifier.height(15.dp))
 
-                Row(
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.fb_icon),
-                        contentDescription = "Facebook",
-                        modifier = Modifier.size(40.dp)
-                    )
-                    Image(
-                        painter = painterResource(id = R.drawable.ig_icon),
-                        contentDescription = "Instagram",
-                        modifier = Modifier.size(40.dp)
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(15.dp))
-
                 CustomButton(
                     text = stringResource(id = R.string.proceed),
                     onClick = {
@@ -374,24 +338,6 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String
                     errorContainerColor = Color.Red,
                 ),
             )
-
-            Spacer(modifier = Modifier.height(30.dp))
-
-            Row(
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.fb_icon),
-                    contentDescription = "Facebook",
-                    modifier = Modifier.size(40.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.ig_icon),
-                    contentDescription = "Instagram",
-                    modifier = Modifier.size(40.dp)
-                )
-            }
 
             Spacer(modifier = Modifier.height(30.dp))
 
