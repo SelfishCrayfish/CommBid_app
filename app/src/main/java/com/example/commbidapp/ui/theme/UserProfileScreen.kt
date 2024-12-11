@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -40,12 +41,9 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
 
     var isArtistSwitchChecked by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .verticalScroll(rememberScrollState()),
-    ) {
+    // Begin Column to include both the profile and wall screen
+    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        // Profile Section
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
@@ -190,50 +188,9 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
                 }
             }
         }
-    }
 
-    val posts by viewModel.posts.observeAsState(emptyList())
-    val isLoading by viewModel.isLoading.observeAsState(true)
-    val errorMessage by viewModel.errorMessage.observeAsState(null)
+        Spacer(modifier = Modifier.height(32.dp))
 
-    LaunchedEffect(Unit) {
-        viewModel.fetchPosts()
-    }
-
-    Column(modifier = Modifier.fillMaxSize()) {
-        if (isLoading) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
-        } else if (errorMessage != null) {
-            Text(
-                text = errorMessage ?: "",
-                color = Color.Red,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
-        } else {
-            WallPosts(posts = posts, navigateToProfile = { username ->
-                // Handle profile navigation
-            })
-        }
-    }
-
-
-    // Function to navigate to the user profile screen
-    fun navigateToProfile(username: String) {
-        val intent = Intent(context, SomeoneProfileActivity::class.java)
-        intent.putExtra("USERNAME", username)
-        context.startActivity(intent)
-    }
-
-    Column(modifier = Modifier.fillMaxSize()) {
-        if (isLoading) {
-            // Show loading indicator while fetching posts
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
-        } else if (errorMessage != null) {
-            // Display error message if something went wrong
-            Text(text = errorMessage ?: "", color = Color.Red, modifier = Modifier.align(Alignment.CenterHorizontally))
-        } else {
-            // Display the posts once fetched
-            WallPosts(posts = posts, navigateToProfile = ::navigateToProfile)
-        }
+        WallScreen(viewModel = viewModel)
     }
 }

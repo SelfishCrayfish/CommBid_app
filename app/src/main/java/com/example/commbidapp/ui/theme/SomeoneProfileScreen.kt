@@ -113,50 +113,9 @@ fun SomeoneProfileScreen(
                 fontFamily = RegularFont
             )
         }
-    }
-    val posts by viewModel.posts.observeAsState(emptyList())
-    val isLoading by viewModel.isLoading.observeAsState(true)
-    val errorMessage by viewModel.errorMessage.observeAsState(null)
-    val context = LocalContext.current
 
-    LaunchedEffect(Unit) {
-        viewModel.fetchPosts()
-    }
+        Spacer(modifier = Modifier.height(32.dp))
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        if (isLoading) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
-        } else if (errorMessage != null) {
-            Text(
-                text = errorMessage ?: "",
-                color = Color.Red,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
-        } else {
-            WallPosts(posts = posts, navigateToProfile = { username ->
-                // Handle profile navigation
-            })
-        }
-    }
-
-
-    // Function to navigate to the user profile screen
-    fun navigateToProfile(username: String) {
-        val intent = Intent(context, SomeoneProfileActivity::class.java)
-        intent.putExtra("USERNAME", username)
-        context.startActivity(intent)
-    }
-
-    Column(modifier = Modifier.fillMaxSize()) {
-        if (isLoading) {
-            // Show loading indicator while fetching posts
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
-        } else if (errorMessage != null) {
-            // Display error message if something went wrong
-            Text(text = errorMessage ?: "", color = Color.Red, modifier = Modifier.align(Alignment.CenterHorizontally))
-        } else {
-            // Display the posts once fetched
-            WallPosts(posts = posts, navigateToProfile = ::navigateToProfile)
-        }
+        WallScreen(viewModel = viewModel)
     }
 }
