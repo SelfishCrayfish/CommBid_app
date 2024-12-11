@@ -1,7 +1,7 @@
 package com.example.commbidapp
 
-import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.example.commbidapp.ui.theme.CreatePostScreen
@@ -14,8 +14,13 @@ class CreatePostActivity : ComponentActivity() {
             CreatePostScreen(
                 onPostAdded = { postContent, imageUri ->
                     val message = "Tutaj chyba jakas backendowa logika"
-                    setContent {
-                        PagerScreen(pageNumber = 1)
+                    if (postContent == "" || imageUri == null){
+                        Toast.makeText(this, R.string.post_must_have_text, Toast.LENGTH_SHORT).show()
+                    }
+                    else {
+                        setContent {
+                            PagerScreen(pageNumber = 1)
+                        }
                     }
                 },
                 onCancel = {

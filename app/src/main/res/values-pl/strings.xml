@@ -6,6 +6,7 @@
     <string name="title_activity_user_profile">UserProfileActivity</string>
     <string name="title_activity_someone_profile">SomeoneProfileActivity</string>
     <string name="title_activity_commission">CommissionActivity</string>
+    <string name="title_activity_create_post">CreatePostActivity</string>
     <string name="choose_desired_artstyle">Wybierz pożądany styl artystyczny</string>
     <string name="artstyle_realism">Realizm</string>
     <string name="artstyle_cartoon">Kreskówka</string>
@@ -35,4 +36,8 @@
     <string name="default_nickname">DomyślnyUsername</string>
     <string name="your_description">Twój opis…</string>
     <string name="username_string">Nazwa użytkownika</string>
+    <string name="choose_picture">Wybierz zdjęcie</string>
+    <string name="cancel">Anuluj</string>
+    <string name="add_post">Dodaj post</string>
+    <string name="post_must_have_text">Post musi posiadać tekst</string>
 </resources>

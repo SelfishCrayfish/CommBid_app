@@ -3,9 +3,12 @@ package com.example.commbidapp.ui.theme
 import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,10 +23,12 @@ import androidx.core.content.ContextCompat.startActivity
 import coil3.compose.AsyncImage
 import com.example.commbidapp.CreatePostActivity
 import com.example.commbidapp.R
+import com.example.commbidapp.SomeoneProfileActivity
+import com.example.commbidapp.WallViewModel
 
 
 @Composable
-fun UserProfileScreen() {
+fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
     val context = LocalContext.current
     val defaultUsername = stringResource(R.string.default_nickname)
     val defaultDescription = stringResource(R.string.your_description)
@@ -39,6 +44,7 @@ fun UserProfileScreen() {
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
+            .verticalScroll(rememberScrollState()),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -64,7 +70,8 @@ fun UserProfileScreen() {
                         value = nickname,
                         onValueChange = { newNickname -> nickname = newNickname },
                         label = { Text(stringResource(id = R.string.nickname)) },
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true
                     )
                 } else {
                     Text(
@@ -182,6 +189,51 @@ fun UserProfileScreen() {
                     )
                 }
             }
+        }
+    }
+
+    val posts by viewModel.posts.observeAsState(emptyList())
+    val isLoading by viewModel.isLoading.observeAsState(true)
+    val errorMessage by viewModel.errorMessage.observeAsState(null)
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchPosts()
+    }
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        if (isLoading) {
+            CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+        } else if (errorMessage != null) {
+            Text(
+                text = errorMessage ?: "",
+                color = Color.Red,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+        } else {
+            WallPosts(posts = posts, navigateToProfile = { username ->
+                // Handle profile navigation
+            })
+        }
+    }
+
+
+    // Function to navigate to the user profile screen
+    fun navigateToProfile(username: String) {
+        val intent = Intent(context, SomeoneProfileActivity::class.java)
+        intent.putExtra("USERNAME", username)
+        context.startActivity(intent)
+    }
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        if (isLoading) {
+            // Show loading indicator while fetching posts
+            CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+        } else if (errorMessage != null) {
+            // Display error message if something went wrong
+            Text(text = errorMessage ?: "", color = Color.Red, modifier = Modifier.align(Alignment.CenterHorizontally))
+        } else {
+            // Display the posts once fetched
+            WallPosts(posts = posts, navigateToProfile = ::navigateToProfile)
         }
     }
 }
