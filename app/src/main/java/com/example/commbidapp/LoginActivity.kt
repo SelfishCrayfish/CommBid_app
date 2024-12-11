@@ -66,7 +66,7 @@ class LoginActivity : ComponentActivity() {
 
                         // Navigate to the next screen
                         setContent {
-                            PagerScreen()
+                            PagerScreen(pageNumber = 0)
                         }
                     } else {
                         Toast.makeText(this@LoginActivity, "Failed to retrieve token!", Toast.LENGTH_SHORT).show()

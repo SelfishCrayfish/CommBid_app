@@ -6,25 +6,26 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import kotlinx.coroutines.launch
 
 @Composable
-fun PagerScreen() {
+fun PagerScreen(pageNumber: Int) {
     val pagerState = rememberPagerState(pageCount = { 3 })
-    var selectedPage by remember { mutableIntStateOf(0) }
-
     val coroutineScope = rememberCoroutineScope()
 
-    LaunchedEffect(pagerState.currentPage) {
-        selectedPage = pagerState.currentPage
+    LaunchedEffect(pageNumber) {
+        pagerState.scrollToPage(pageNumber.coerceIn(0, pagerState.pageCount - 1))
     }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
             BottomNavBar(
-                selectedPage = selectedPage,
+                selectedPage = pagerState.currentPage,
                 onPageSelected = { page ->
-                    selectedPage = page
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(page)
+                    }
                 },
                 coroutineScope = coroutineScope,
                 pagerState = pagerState

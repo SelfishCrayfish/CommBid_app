@@ -1,5 +1,6 @@
 package com.example.commbidapp.ui.theme
 
+import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -10,16 +11,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import coil3.compose.AsyncImage
+import com.example.commbidapp.CreatePostActivity
 import com.example.commbidapp.R
 
 
 @Composable
 fun UserProfileScreen() {
+    val context = LocalContext.current
     val defaultUsername = stringResource(R.string.default_nickname)
     val defaultDescription = stringResource(R.string.your_description)
     var nickname by remember { mutableStateOf(defaultUsername) }
@@ -166,7 +171,9 @@ fun UserProfileScreen() {
                     .padding(end = 16.dp, bottom = 16.dp),
                 contentAlignment = Alignment.BottomEnd
             ) {
-                IconButton(onClick = { }) {
+                IconButton(onClick = {
+                    context.startActivity(Intent(context, CreatePostActivity::class.java))
+                }) {
                     Icon(
                         painter = painterResource(id = R.drawable.plus_icon),
                         contentDescription = "Add Work",

@@ -77,6 +77,7 @@ fun RegisterTabletLayout(
             label = { Text(stringResource(id = R.string.username_string)) },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
             modifier = Modifier.width(400.dp),
+            singleLine = true,
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color.White,
                 unfocusedContainerColor = Color.White,
@@ -93,6 +94,7 @@ fun RegisterTabletLayout(
             label = { Text("Email") },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
             modifier = Modifier.width(400.dp),
+            singleLine = true,
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color.White,
                 unfocusedContainerColor = Color.White,
@@ -109,6 +111,7 @@ fun RegisterTabletLayout(
             label = { Text(stringResource(id = R.string.password)) },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.width(400.dp),
+            singleLine = true,
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color.White,
                 unfocusedContainerColor = Color.White,
@@ -125,6 +128,7 @@ fun RegisterTabletLayout(
             label = { Text(stringResource(id = R.string.confirm_password)) },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.width(400.dp),
+            singleLine = true,
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color.White,
                 unfocusedContainerColor = Color.White,
@@ -185,6 +189,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String
                     label = { Text(stringResource(id = R.string.username_string)) },
                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
                     modifier = Modifier.width(400.dp),
+                    singleLine = true,
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.White,
                         unfocusedContainerColor = Color.White,
@@ -201,6 +206,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String
                     label = { Text("Email") },
                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
                     modifier = Modifier.width(400.dp),
+                    singleLine = true,
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.White,
                         unfocusedContainerColor = Color.White,
@@ -217,6 +223,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String
                     label = { Text(stringResource(id = R.string.password)) },
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier.width(400.dp),
+                    singleLine = true,
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.White,
                         unfocusedContainerColor = Color.White,
@@ -233,6 +240,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String
                     label = { Text(stringResource(id = R.string.confirm_password)) },
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier.width(400.dp),
+                    singleLine = true,
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.White,
                         unfocusedContainerColor = Color.White,
@@ -283,6 +291,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String
                 label = { Text(stringResource(id = R.string.username_string)) },
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
                 modifier = Modifier.width(400.dp),
+                singleLine = true,
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.White,
                     unfocusedContainerColor = Color.White,
@@ -299,6 +308,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String
                 label = { Text("Email") },
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
                 modifier = Modifier.width(400.dp),
+                singleLine = true,
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.White,
                     unfocusedContainerColor = Color.White,
@@ -315,6 +325,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String
                 label = { Text(stringResource(id = R.string.password)) },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.width(400.dp),
+                singleLine = true,
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.White,
                     unfocusedContainerColor = Color.White,
@@ -331,6 +342,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String
                 label = { Text(stringResource(id = R.string.confirm_password)) },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.width(400.dp),
+                singleLine = true,
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.White,
                     unfocusedContainerColor = Color.White,
