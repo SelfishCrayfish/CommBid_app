@@ -1,7 +1,12 @@
 package com.example.commbidapp.ui.theme
 
+import android.app.Activity
 import android.content.Intent
+import android.net.Uri
+import android.provider.MediaStore
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -31,16 +36,82 @@ import com.example.commbidapp.SomeoneProfileActivity
 import com.example.commbidapp.UserSession
 import com.example.commbidapp.WallViewModel
 import com.example.commbidapp.ArtistRequest
+import com.example.commbidapp.ImgurApiService
+import com.example.commbidapp.PfpRequest
 import com.example.commbidapp.usernameRequest
+import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
+
 @Composable
 fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope() // Remember a coroutine scope for launching coroutines
+    var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
+
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) {  uri: Uri? ->
+        selectedImageUri = uri
+            if (selectedImageUri != null) {
+                coroutineScope.launch {
+                    try {
+                        // Call the suspend function for image upload
+                        val uploadedImageUrl = uploadImageToImgur(selectedImageUri!!, context)
+                        println(uploadedImageUrl)
+                        UserSession.loggedUser.id?.let { userId ->
+                            uploadedImageUrl?.let { imageUrl: String ->
+                                val pfpRequest = PfpRequest(imageUrl)
+
+                                // Make the Retrofit call asynchronously using enqueue
+                                RetrofitInstance.userService.changePfp(userId, pfpRequest)
+                                    .enqueue(object : Callback<ResponseBody> {
+                                        override fun onResponse(
+                                            call: Call<ResponseBody>,
+                                            response: Response<ResponseBody>
+                                        ) {
+                                            if (response.isSuccessful) {
+                                                // Handle success
+                                                val responseBody = response.body()
+                                                responseBody?.let {
+                                                    println("Profile picture updated successfully: ${it.string()}")
+                                                }
+                                            } else {
+                                                // Handle error response
+                                                val errorBody = response.errorBody()?.string()
+                                                println("Error updating profile picture: $errorBody")
+                                            }
+                                        }
+
+                                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                            // Handle failure, e.g., show a toast or log the error
+                                            t.printStackTrace()
+                                            println("Failed to update profile picture: ${t.message}")
+                                        }
+                                    })
+                            }
+                        }
+                    } catch (e: Exception) {
+                        // Handle exceptions from the upload function
+                        e.printStackTrace()
+                        println("Failed to upload image: ${e.message}")
+                    }
+                }
+            }
+
+    }
+
+
+
+    fun onProfileImageClick() {
+        // Launch the image picker
+        launcher.launch("image/*") // Trigger the image picker with image MIME type
+    }
     val defaultUsername = stringResource(R.string.default_nickname)
     val defaultDescription = stringResource(R.string.your_description)
     var nickname by remember { mutableStateOf(UserSession.loggedUser.username) }
@@ -63,7 +134,7 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
                 contentDescription = "Profile Image",
                 modifier = Modifier
                     .size(90.dp)
-                    .clickable { /* TODO */ }
+                    .clickable {onProfileImageClick() }
                     .clip(CircleShape),
                 contentScale = ContentScale.FillBounds
             )

@@ -3,7 +3,6 @@ package com.example.commbidapp
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
-import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -25,7 +24,7 @@ data class LoginResponse(
 
 data class DescriptionRequest(val about: String)
 
-data class PfpRequest(val image: String)
+data class PfpRequest(val profilePicture: String)
 
 data class usernameRequest(val username: String)
 
@@ -59,6 +58,6 @@ interface UserService {
     @PUT("/api/users/{id}")
     fun changeIsArtist(
         @Path("id") userId: Int,
-        @Body ArtistRequest: ArtistRequest
+        @Body artistRequest: ArtistRequest
     ) : Call<ResponseBody>
 }
