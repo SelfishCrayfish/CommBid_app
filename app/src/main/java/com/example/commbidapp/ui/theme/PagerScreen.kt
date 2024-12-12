@@ -19,6 +19,15 @@ fun PagerScreen(pageNumber: Int) {
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        topBar = {
+            TopNavBar(
+                onLanguageChanged = {
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(0)
+                    }
+                }
+            )
+        },
         bottomBar = {
             BottomNavBar(
                 selectedPage = pagerState.currentPage,
@@ -39,9 +48,9 @@ fun PagerScreen(pageNumber: Int) {
                 .padding(paddingValues)
         ) { page ->
             when (page) {
-                0 -> MainScreenWithNavbar { WallScreen() }
-                1 -> MainScreenWithNavbar { UserProfileScreen() }
-                2 -> MainScreenWithNavbar { FavoritesScreen() }
+                0 -> WallScreen()
+                1 -> UserProfileScreen()
+                2 -> FavoritesScreen()
             }
         }
     }

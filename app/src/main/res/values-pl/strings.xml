@@ -40,4 +40,6 @@
     <string name="cancel">Anuluj</string>
     <string name="add_post">Dodaj post</string>
     <string name="post_must_have_text">Post musi posiadać tekst</string>
+    <string name="close">Zamknij</string>
+    <string name="select_language">Zmień język</string>
 </resources>
