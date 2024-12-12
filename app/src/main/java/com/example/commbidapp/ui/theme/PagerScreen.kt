@@ -48,7 +48,7 @@ fun PagerScreen(pageNumber: Int) {
                 .padding(paddingValues)
         ) { page ->
             when (page) {
-                0 -> WallScreen()
+                0 -> WallScreen(userId = null)
                 1 -> UserProfileScreen()
                 2 -> FavoritesScreen()
             }

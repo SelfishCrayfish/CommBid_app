@@ -20,11 +20,16 @@ class WallViewModel : ViewModel() {
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> get() = _errorMessage
 
-    fun fetchPosts() {
+    fun fetchPosts( userId : Int?) {
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                val fetchedPosts = RetrofitInstance.postService.getAllPosts()
+                val fetchedPosts = if (userId == null) {
+                    RetrofitInstance.postService.getAllPosts()
+                } else {
+                    RetrofitInstance.postService.getPostbyUser(userId)
+                }
+
                 _posts.value = fetchedPosts
             } catch (e: Exception) {
                 _errorMessage.value = "Error: ${e.message}"

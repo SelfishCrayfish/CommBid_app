@@ -26,14 +26,14 @@ import retrofit2.Callback
 import retrofit2.Response
 
 @Composable
-fun WallScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
+fun WallScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),userId : Int?) {
     val posts by viewModel.posts.observeAsState(emptyList())
     val isLoading by viewModel.isLoading.observeAsState(true)
     val errorMessage by viewModel.errorMessage.observeAsState(null)
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        viewModel.fetchPosts()
+        viewModel.fetchPosts(userId)
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
