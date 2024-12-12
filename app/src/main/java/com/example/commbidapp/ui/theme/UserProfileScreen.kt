@@ -163,33 +163,44 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
             Text(
                 text = stringResource(id = R.string.artist_switch),
                 color = Color.Black,
-                fontSize = 18.sp
+                fontSize = 18.sp,
+                modifier = Modifier.weight(1f) // Wypełnia przestrzeń między przełącznikiem a nowymi elementami
             )
-        }
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        if (isArtistSwitchChecked) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(end = 16.dp, bottom = 16.dp),
-                contentAlignment = Alignment.BottomEnd
-            ) {
-                IconButton(onClick = {
-                    context.startActivity(Intent(context, CreatePostActivity::class.java))
-                }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.plus_icon),
-                        contentDescription = "Add Work",
-                        tint = Color.Black,
-                        modifier = Modifier.size(48.dp)
+            if (isArtistSwitchChecked) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.add_post),
+                        color = Color.Black,
+                        fontSize = 18.sp,
+                        modifier = Modifier.padding(end = 8.dp)
                     )
+                    IconButton(
+                        onClick = {
+                            context.startActivity(Intent(context, CreatePostActivity::class.java))
+                        },
+                        modifier = Modifier.align(Alignment.CenterVertically)
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.plus_icon),
+                            contentDescription = "Add Work",
+                            tint = Color.Black,
+                            modifier = Modifier.size(48.dp)
+                        )
+                    }
                 }
             }
         }
 
-        Spacer(modifier = Modifier.height(32.dp))
+
+
+//        Spacer(modifier = Modifier.height(16.dp))
+
+
+
+//        Spacer(modifier = Modifier.height(32.dp))
 
         WallScreen(viewModel = viewModel)
     }
