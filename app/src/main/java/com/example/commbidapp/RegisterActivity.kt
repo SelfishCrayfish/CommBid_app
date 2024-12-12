@@ -51,7 +51,8 @@ class RegisterActivity : ComponentActivity() {
                             lowestPrice = null,
                             highestPrice = null,
                             createdAt = timestamp,
-                            ratingsReceived = emptyList()
+                            ratingsReceived = emptyList(),
+                            id = null
                         )
 
                         // Make network call to create the user
