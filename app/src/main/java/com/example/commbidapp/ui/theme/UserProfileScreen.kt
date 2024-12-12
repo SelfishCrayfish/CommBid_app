@@ -1,25 +1,37 @@
 package com.example.commbidapp.ui.theme
 
+import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import coil3.compose.AsyncImage
+import com.example.commbidapp.CreatePostActivity
 import com.example.commbidapp.R
+import com.example.commbidapp.SomeoneProfileActivity
+import com.example.commbidapp.UserSession
+import com.example.commbidapp.WallViewModel
 
 
 @Composable
-fun UserProfileScreen() {
+fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
+    val context = LocalContext.current
     val defaultUsername = stringResource(R.string.default_nickname)
     val defaultDescription = stringResource(R.string.your_description)
     var nickname by remember { mutableStateOf(defaultUsername) }
@@ -30,11 +42,9 @@ fun UserProfileScreen() {
 
     var isArtistSwitchChecked by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
+    // Begin Column to include both the profile and wall screen
+    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        // Profile Section
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
@@ -59,7 +69,8 @@ fun UserProfileScreen() {
                         value = nickname,
                         onValueChange = { newNickname -> nickname = newNickname },
                         label = { Text(stringResource(id = R.string.nickname)) },
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true
                     )
                 } else {
                     Text(
@@ -153,28 +164,45 @@ fun UserProfileScreen() {
             Text(
                 text = stringResource(id = R.string.artist_switch),
                 color = Color.Black,
-                fontSize = 18.sp
+                fontSize = 18.sp,
+                modifier = Modifier.weight(1f) // Wypełnia przestrzeń między przełącznikiem a nowymi elementami
             )
-        }
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        if (isArtistSwitchChecked) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(end = 16.dp, bottom = 16.dp),
-                contentAlignment = Alignment.BottomEnd
-            ) {
-                IconButton(onClick = { }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.plus_icon),
-                        contentDescription = "Add Work",
-                        tint = Color.Black,
-                        modifier = Modifier.size(48.dp)
+            if (isArtistSwitchChecked) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.add_post),
+                        color = Color.Black,
+                        fontSize = 18.sp,
+                        modifier = Modifier.padding(end = 8.dp)
                     )
+                    IconButton(
+                        onClick = {
+                            context.startActivity(Intent(context, CreatePostActivity::class.java))
+                        },
+                        modifier = Modifier.align(Alignment.CenterVertically)
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.plus_icon),
+                            contentDescription = "Add Work",
+                            tint = Color.Black,
+                            modifier = Modifier.size(48.dp)
+                        )
+                    }
                 }
             }
         }
+
+
+
+//        Spacer(modifier = Modifier.height(16.dp))
+
+
+
+//        Spacer(modifier = Modifier.height(32.dp))
+
+        WallScreen(viewModel = viewModel,userId = UserSession.loggedUser.id)
     }
 }

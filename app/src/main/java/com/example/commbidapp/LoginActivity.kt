@@ -1,40 +1,111 @@
 package com.example.commbidapp
 
-import com.example.commbidapp.ui.theme.PagerScreen
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.example.commbidapp.ui.theme.LoginScreen
+import com.example.commbidapp.ui.theme.PagerScreen
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.regex.Pattern
 
+object UserSession {
+    lateinit var loggedUser: User
+}
+
 class LoginActivity : ComponentActivity() {
+
+    private lateinit var userService: UserService
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Initialize Retrofit
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://lit-sands-62255-e863c9112a48.herokuapp.com")
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .build()
+        userService = retrofit.create(UserService::class.java)
+
         setContent {
             LoginScreen(onLoginSuccess = { email, password ->
-                val emailError = getEmailValidationError(email)
+                //val emailError = getEmailValidationError(email)
                 val passwordError = getPasswordValidationError(password)
 
                 when {
-//                    emailError != null -> {
-//                        Toast.makeText(this, emailError, Toast.LENGTH_LONG).show()
-//                    }
 
-//                    passwordError != null -> {
-//                        Toast.makeText(this, passwordError, Toast.LENGTH_LONG).show()
-//                    }
+                    passwordError != null -> {
+                        Toast.makeText(this, passwordError, Toast.LENGTH_LONG).show()
+                    }
 
                     else -> {
-                        setContent {
-                            PagerScreen()
-                        }
+                        loginUser(email, password)
                     }
                 }
             })
         }
+    }
+
+    private fun loginUser(username: String, password: String) {
+        val loginRequest = LoginRequest(
+            username = username,
+            passwordHash = password
+        )
+
+        val call = RetrofitInstance.userService.login(loginRequest)
+
+        call.enqueue(object : Callback<LoginResponse> {
+            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                if (response.isSuccessful) {
+                    val loginResponse = response.body()
+                    if (loginResponse != null) {
+                        // Save JWT to SharedPreferences
+                        saveJwtToken(loginResponse.jwt)
+
+                        // Save User to UserSession
+                        UserSession.loggedUser = User(
+                            id = loginResponse.id,
+                            username = loginResponse.username,
+                            email = loginResponse.email,
+                            profilePicture = loginResponse.profilePicture,
+                            isArtist = loginResponse.isArtist,
+                            openForCommissions = loginResponse.openForCommissions,
+                            lowestPrice = loginResponse.lowestPrice,
+                            highestPrice = loginResponse.highestPrice,
+                            createdAt = loginResponse.createdAt,
+                            passwordHash = "",
+                            ratingsReceived = listOf()
+                        )
+
+                        Toast.makeText(this@LoginActivity, "Login Successful!", Toast.LENGTH_SHORT).show()
+
+                        // Navigate to the next screen
+                        setContent {
+                            PagerScreen(pageNumber = 0)
+                        }
+                    } else {
+                        Toast.makeText(this@LoginActivity, "Failed to retrieve login response!", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(this@LoginActivity, "Login failed: ${response.message()}", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                Toast.makeText(this@LoginActivity, "Network error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun saveJwtToken(token: String) {
+        val sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE)
+        sharedPreferences.edit()
+            .putString("JWT_TOKEN", token)
+            .apply()
     }
 
     private fun getEmailValidationError(email: String): String? {

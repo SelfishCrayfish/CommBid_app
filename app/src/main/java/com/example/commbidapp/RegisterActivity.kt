@@ -37,13 +37,12 @@ class RegisterActivity : ComponentActivity() {
                     else -> {
                         val createdAt = ZonedDateTime.now()
                         val formattedDate = createdAt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-
                         // Convert ZonedDateTime to Instant (which is used by Timestamp)
                         val timestamp = formattedDate
 
 
                         val user = User(
-                            username = email.split("@")[0], // Example username
+                            username = username, // Example username
                             email = email,
                             passwordHash = password, // Normally hash the password
                             profilePicture = null,
@@ -52,12 +51,12 @@ class RegisterActivity : ComponentActivity() {
                             lowestPrice = null,
                             highestPrice = null,
                             createdAt = timestamp,
-
-                            ratingsReceived = emptyList()
+                            ratingsReceived = emptyList(),
+                            id = null
                         )
 
                         // Make network call to create the user
-                        RetrofitInstance.api.createUser(user).enqueue(object : retrofit2.Callback<User> {
+                        RetrofitInstance.userService.createUser(user).enqueue(object : retrofit2.Callback<User> {
                             override fun onResponse(call: retrofit2.Call<User>, response: retrofit2.Response<User>) {
                                 if (response.isSuccessful) {
                                     Toast.makeText(this@RegisterActivity, "User registered successfully!", Toast.LENGTH_LONG).show()
@@ -84,8 +83,11 @@ class RegisterActivity : ComponentActivity() {
 
     private fun getUsernameValidationError(username: String): String? {
         val usernamePattern = "[ !@#%^&*()\\[\\]|\\\\;:'\",.<>/?~`\\-+=]"
-        return if (!Pattern.matches(usernamePattern, username)) {
-            "Invalid username format. Username cannot contain special characters like ! @ # % ^ & * ( ) [ ] | \\ ; : ' \" , . < > / ? ~ ` - + = ."
+        val pattern = Pattern.compile(usernamePattern)
+        val matcher = pattern.matcher(username)
+
+        return if (matcher.find()) {
+            "Invalid username format. Username cannot contain special characters like ! @ # % ^ & * ( ) [ ] | \\ ; : ' \" , . < > / ? ~ ` - + =."
         } else {
             null
         }

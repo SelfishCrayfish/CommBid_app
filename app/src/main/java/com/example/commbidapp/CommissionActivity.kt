@@ -7,7 +7,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.mutableStateOf
 import com.example.commbidapp.ui.theme.CommissionScreen
-import com.example.commbidapp.ui.theme.MainScreenWithNavbar
 
 
 class CommissionActivity : ComponentActivity() {
@@ -19,16 +18,12 @@ class CommissionActivity : ComponentActivity() {
             selectedImageUri.value = it
         }
     }
-
     private val selectedImageUri = mutableStateOf<Uri?>(null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-//            CommissionScreen()
-            MainScreenWithNavbar {
-                CommissionScreen()
-            }
+            CommissionScreen()
         }
     }
 }

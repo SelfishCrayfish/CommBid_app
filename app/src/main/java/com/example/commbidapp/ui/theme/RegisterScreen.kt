@@ -77,6 +77,7 @@ fun RegisterTabletLayout(
             label = { Text(stringResource(id = R.string.username_string)) },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
             modifier = Modifier.width(400.dp),
+            singleLine = true,
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color.White,
                 unfocusedContainerColor = Color.White,
@@ -93,6 +94,7 @@ fun RegisterTabletLayout(
             label = { Text("Email") },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
             modifier = Modifier.width(400.dp),
+            singleLine = true,
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color.White,
                 unfocusedContainerColor = Color.White,
@@ -109,6 +111,7 @@ fun RegisterTabletLayout(
             label = { Text(stringResource(id = R.string.password)) },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.width(400.dp),
+            singleLine = true,
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color.White,
                 unfocusedContainerColor = Color.White,
@@ -125,6 +128,7 @@ fun RegisterTabletLayout(
             label = { Text(stringResource(id = R.string.confirm_password)) },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.width(400.dp),
+            singleLine = true,
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color.White,
                 unfocusedContainerColor = Color.White,
@@ -132,24 +136,6 @@ fun RegisterTabletLayout(
                 errorContainerColor = Color.Red,
             ),
         )
-
-        Spacer(modifier = Modifier.height(30.dp))
-
-        Row(
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier.width(200.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.fb_icon),
-                contentDescription = "Facebook",
-                modifier = Modifier.size(40.dp)
-            )
-            Image(
-                painter = painterResource(id = R.drawable.ig_icon),
-                contentDescription = "Instagram",
-                modifier = Modifier.size(40.dp)
-            )
-        }
 
         Spacer(modifier = Modifier.height(30.dp))
 
@@ -203,6 +189,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String
                     label = { Text(stringResource(id = R.string.username_string)) },
                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
                     modifier = Modifier.width(400.dp),
+                    singleLine = true,
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.White,
                         unfocusedContainerColor = Color.White,
@@ -219,6 +206,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String
                     label = { Text("Email") },
                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
                     modifier = Modifier.width(400.dp),
+                    singleLine = true,
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.White,
                         unfocusedContainerColor = Color.White,
@@ -235,6 +223,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String
                     label = { Text(stringResource(id = R.string.password)) },
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier.width(400.dp),
+                    singleLine = true,
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.White,
                         unfocusedContainerColor = Color.White,
@@ -251,6 +240,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String
                     label = { Text(stringResource(id = R.string.confirm_password)) },
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier.width(400.dp),
+                    singleLine = true,
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.White,
                         unfocusedContainerColor = Color.White,
@@ -258,24 +248,6 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String
                         errorContainerColor = Color.Red,
                     ),
                 )
-
-                Spacer(modifier = Modifier.height(15.dp))
-
-                Row(
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.fb_icon),
-                        contentDescription = "Facebook",
-                        modifier = Modifier.size(40.dp)
-                    )
-                    Image(
-                        painter = painterResource(id = R.drawable.ig_icon),
-                        contentDescription = "Instagram",
-                        modifier = Modifier.size(40.dp)
-                    )
-                }
 
                 Spacer(modifier = Modifier.height(15.dp))
 
@@ -319,6 +291,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String
                 label = { Text(stringResource(id = R.string.username_string)) },
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
                 modifier = Modifier.width(400.dp),
+                singleLine = true,
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.White,
                     unfocusedContainerColor = Color.White,
@@ -335,6 +308,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String
                 label = { Text("Email") },
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
                 modifier = Modifier.width(400.dp),
+                singleLine = true,
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.White,
                     unfocusedContainerColor = Color.White,
@@ -351,6 +325,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String
                 label = { Text(stringResource(id = R.string.password)) },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.width(400.dp),
+                singleLine = true,
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.White,
                     unfocusedContainerColor = Color.White,
@@ -367,6 +342,7 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String
                 label = { Text(stringResource(id = R.string.confirm_password)) },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.width(400.dp),
+                singleLine = true,
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.White,
                     unfocusedContainerColor = Color.White,
@@ -374,24 +350,6 @@ fun RegisterPhoneLayout(isLandscape: Boolean, onRegisterSuccess: (String, String
                     errorContainerColor = Color.Red,
                 ),
             )
-
-            Spacer(modifier = Modifier.height(30.dp))
-
-            Row(
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.fb_icon),
-                    contentDescription = "Facebook",
-                    modifier = Modifier.size(40.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.ig_icon),
-                    contentDescription = "Instagram",
-                    modifier = Modifier.size(40.dp)
-                )
-            }
 
             Spacer(modifier = Modifier.height(30.dp))
 

@@ -1,26 +1,34 @@
 package com.example.commbidapp.ui.theme
 
+import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.commbidapp.R
 import coil3.compose.AsyncImage
+import com.example.commbidapp.SomeoneProfileActivity
+import com.example.commbidapp.WallViewModel
 
 @Composable
 fun SomeoneProfileScreen(
     onCommissionButtonClick: () -> Unit,
+    viewModel: WallViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
     var nickname by remember { mutableStateOf("ArtystaNick") }
 
@@ -30,6 +38,7 @@ fun SomeoneProfileScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
+            .verticalScroll(rememberScrollState()),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -104,5 +113,10 @@ fun SomeoneProfileScreen(
                 fontFamily = RegularFont
             )
         }
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        val id = 1
+        WallScreen(viewModel = viewModel, userId = id)
     }
 }

@@ -46,7 +46,7 @@ fun LoginScreen(onLoginSuccess: (String, String) -> Unit) {
 
 @Composable
 fun LoginTabletLayout(isLandscape: Boolean, onLoginSuccess: (String, String) -> Unit) {
-    var email by remember { mutableStateOf(TextFieldValue()) }
+    var username by remember { mutableStateOf(TextFieldValue()) }
     var password by remember { mutableStateOf(TextFieldValue()) }
 
     Column(
@@ -66,14 +66,14 @@ fun LoginTabletLayout(isLandscape: Boolean, onLoginSuccess: (String, String) -> 
         Spacer(modifier = Modifier.height(if (isLandscape) 0.dp else 100.dp))
 
         OutlinedTextField(
-            value = email,
+            value = username,
             onValueChange = {
                 if (it.text.length <= 50) {
-                    email = it
+                    username = it
                 }
             },
-            label = { Text("Email") },
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
+            label = { Text("Username") },
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
             modifier = Modifier.width(400.dp),
             singleLine = true,
             colors = TextFieldDefaults.colors(
@@ -107,28 +107,10 @@ fun LoginTabletLayout(isLandscape: Boolean, onLoginSuccess: (String, String) -> 
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        Row(
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier.width(200.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.fb_icon),
-                contentDescription = "Facebook",
-                modifier = Modifier.size(40.dp)
-            )
-            Image(
-                painter = painterResource(id = R.drawable.ig_icon),
-                contentDescription = "Instagram",
-                modifier = Modifier.size(40.dp)
-            )
-        }
-
-        Spacer(modifier = Modifier.height(30.dp))
-
         CustomButton(
             text = stringResource(id = R.string.proceed),
             onClick = {
-                onLoginSuccess(email.text, password.text)
+                onLoginSuccess(username.text, password.text)
             },
             backgroundColor = BlueCrayolaColor,
             fontFamily = RegularFont,
@@ -139,7 +121,7 @@ fun LoginTabletLayout(isLandscape: Boolean, onLoginSuccess: (String, String) -> 
 
 @Composable
 fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: (String, String) -> Unit) {
-    var email by remember { mutableStateOf(TextFieldValue()) }
+    var username by remember { mutableStateOf(TextFieldValue()) }
     var password by remember { mutableStateOf(TextFieldValue()) }
 
     if (isLandscape) {
@@ -169,14 +151,14 @@ fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: (String, String) -> U
                 verticalArrangement = Arrangement.Center
             ) {
                 OutlinedTextField(
-                    value = email,
+                    value = username,
                     onValueChange = {
                         if (it.text.length <= 50) {
-                            email = it
+                            username = it
                         }
                     },
-                    label = { Text("Email") },
-                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
+                    label = { Text("Username") },
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
                     modifier = Modifier.width(400.dp),
                     singleLine = true,
                     colors = TextFieldDefaults.colors(
@@ -210,28 +192,10 @@ fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: (String, String) -> U
 
                 Spacer(modifier = Modifier.height(30.dp))
 
-                Row(
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.fb_icon),
-                        contentDescription = "Facebook",
-                        modifier = Modifier.size(40.dp)
-                    )
-                    Image(
-                        painter = painterResource(id = R.drawable.ig_icon),
-                        contentDescription = "Instagram",
-                        modifier = Modifier.size(40.dp)
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(30.dp))
-
                 CustomButton(
                     text = stringResource(id = R.string.proceed),
                     onClick = {
-                        onLoginSuccess(email.text, password.text)
+                        onLoginSuccess(username.text, password.text)
                     },
                     fontFamily = RegularFont,
                     backgroundColor = BlueCrayolaColor,
@@ -258,14 +222,14 @@ fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: (String, String) -> U
             Spacer(modifier = Modifier.height(100.dp))
 
             OutlinedTextField(
-                value = email,
+                value = username,
                 onValueChange = {
                     if (it.text.length <= 50) {
-                        email = it
+                        username = it
                     }
                 },
-                label = { Text("Email") },
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
+                label = { Text("Username") },
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
                 modifier = Modifier.width(400.dp),
                 singleLine = true,
                 colors = TextFieldDefaults.colors(
@@ -299,28 +263,10 @@ fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: (String, String) -> U
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            Row(
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.fb_icon),
-                    contentDescription = "Facebook",
-                    modifier = Modifier.size(40.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.ig_icon),
-                    contentDescription = "Instagram",
-                    modifier = Modifier.size(40.dp)
-                )
-            }
-
-            Spacer(modifier = Modifier.height(30.dp))
-
             CustomButton(
                 text = stringResource(id = R.string.proceed),
                 onClick = {
-                    onLoginSuccess(email.text, password.text)
+                    onLoginSuccess(username.text, password.text)
                 },
                 fontFamily = RegularFont,
                 backgroundColor = BlueCrayolaColor,

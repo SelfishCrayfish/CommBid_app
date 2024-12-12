@@ -6,25 +6,35 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import kotlinx.coroutines.launch
 
 @Composable
-fun PagerScreen() {
+fun PagerScreen(pageNumber: Int) {
     val pagerState = rememberPagerState(pageCount = { 3 })
-    var selectedPage by remember { mutableIntStateOf(0) }
-
     val coroutineScope = rememberCoroutineScope()
 
-    LaunchedEffect(pagerState.currentPage) {
-        selectedPage = pagerState.currentPage
+    LaunchedEffect(pageNumber) {
+        pagerState.scrollToPage(pageNumber.coerceIn(0, pagerState.pageCount - 1))
     }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        topBar = {
+            TopNavBar(
+                onLanguageChanged = {
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(0)
+                    }
+                }
+            )
+        },
         bottomBar = {
             BottomNavBar(
-                selectedPage = selectedPage,
+                selectedPage = pagerState.currentPage,
                 onPageSelected = { page ->
-                    selectedPage = page
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(page)
+                    }
                 },
                 coroutineScope = coroutineScope,
                 pagerState = pagerState
@@ -38,9 +48,9 @@ fun PagerScreen() {
                 .padding(paddingValues)
         ) { page ->
             when (page) {
-                0 -> MainScreenWithNavbar { WallScreen() }
-                1 -> MainScreenWithNavbar { UserProfileScreen() }
-                2 -> MainScreenWithNavbar { FavoritesScreen() }
+                0 -> WallScreen(userId = null)
+                1 -> UserProfileScreen()
+                2 -> FavoritesScreen()
             }
         }
     }

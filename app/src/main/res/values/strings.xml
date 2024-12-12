@@ -6,6 +6,7 @@
     <string name="title_activity_user_profile">UserProfileActivity</string>
     <string name="title_activity_someone_profile">SomeoneProfileActivity</string>
     <string name="title_activity_commission">CommissionActivity</string>
+    <string name="title_activity_create_post">CreatePostActivity</string>
     <string name="choose_desired_artstyle">Choose desired artstyle:</string>
     <string name="artstyle_realism">Realism</string>
     <string name="artstyle_cartoon">Cartoon</string>
@@ -36,4 +37,11 @@
     <string name="your_description">Your description…</string>
     <string name="username_string">Username</string>
     <string name="title_activity_wall" translatable="false">WallActivity</string>
+    <string name="choose_picture">Choose picture</string>
+    <string name="cancel">Cancel</string>
+    <string name="add_post">Add post</string>
+    <string name="post_must_have_text">Post must have text</string>
+    <string name="close">Close</string>
+    <string name="select_language">Change language</string>
+    <string name="post_added_successfully">post added successfully</string>
 </resources>
