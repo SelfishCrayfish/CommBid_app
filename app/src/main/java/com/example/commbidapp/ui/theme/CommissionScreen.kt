@@ -112,7 +112,7 @@ fun CommissionScreen() {
             onClick = { },
             fontFamily = RegularFont,
             backgroundColor = BlueCrayolaColor,
-            modifier = Modifier.width(450.dp)
+            modifier = Modifier.width(450.dp).height(100.dp)
         )
     }
 }

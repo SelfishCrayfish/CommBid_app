@@ -4,12 +4,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
@@ -65,7 +67,8 @@ fun PostItem(post: Post, navigateToProfile: (String) -> Unit) {
                     modifier = Modifier
                         .size(40.dp)
                         .padding(4.dp)
-                        .clickable { navigateToProfile(post.user.username) } // Kliknięcie na zdjęcie profilowe
+                        .clickable { navigateToProfile(post.user.username) }
+                        .clip(CircleShape)
                 )
             }
             Spacer(modifier = Modifier.width(8.dp))
@@ -118,14 +121,5 @@ fun PostItem(post: Post, navigateToProfile: (String) -> Unit) {
         )
 
         Spacer(modifier = Modifier.height(4.dp))
-
-        Text(
-            text = if (expanded) "Zobacz mniej..." else "Zobacz więcej...",
-            color = Color.Blue,
-            fontSize = 12.sp,
-            modifier = Modifier
-                .clickable { expanded = !expanded }
-                .padding(top = 4.dp)
-        )
     }
 }

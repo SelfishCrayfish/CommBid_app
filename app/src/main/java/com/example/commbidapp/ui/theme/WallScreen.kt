@@ -32,6 +32,13 @@ fun WallScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.compose.v
     val errorMessage by viewModel.errorMessage.observeAsState(null)
     val context = LocalContext.current
 
+    // Function to navigate to the user profile screen
+    fun navigateToProfile(username: String) {
+        val intent = Intent(context, SomeoneProfileActivity::class.java)
+        intent.putExtra("USERNAME", username)
+        context.startActivity(intent)
+    }
+
     LaunchedEffect(Unit) {
         viewModel.fetchPosts(userId)
     }
@@ -47,18 +54,13 @@ fun WallScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.compose.v
             )
         } else {
             WallPosts(posts = posts, navigateToProfile = { username ->
-                // Handle profile navigation
+                navigateToProfile(username)
             })
         }
     }
 
 
-    // Function to navigate to the user profile screen
-    fun navigateToProfile(username: String) {
-        val intent = Intent(context, SomeoneProfileActivity::class.java)
-        intent.putExtra("USERNAME", username)
-        context.startActivity(intent)
-    }
+
 
     Column(modifier = Modifier.fillMaxSize()) {
         if (isLoading) {
@@ -73,3 +75,4 @@ fun WallScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.compose.v
         }
     }
 }
+

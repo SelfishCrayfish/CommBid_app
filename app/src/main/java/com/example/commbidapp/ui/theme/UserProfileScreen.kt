@@ -194,15 +194,6 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
                 }
             }
         }
-
-
-
-//        Spacer(modifier = Modifier.height(16.dp))
-
-
-
-//        Spacer(modifier = Modifier.height(32.dp))
-
         WallScreen(viewModel = viewModel,userId = UserSession.loggedUser.id)
     }
 }
