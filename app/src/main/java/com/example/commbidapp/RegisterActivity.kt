@@ -52,6 +52,7 @@ class RegisterActivity : ComponentActivity() {
                             highestPrice = null,
                             createdAt = timestamp,
                             ratingsReceived = emptyList(),
+                            about = null,
                             id = null
                         )
 

@@ -21,5 +21,6 @@ data class User(
     val lowestPrice: Double?,
     val highestPrice: Double?,
     val createdAt: String,
+    val about: String?,
     val ratingsReceived: List<Rating> // Added ratingsReceived field
 )

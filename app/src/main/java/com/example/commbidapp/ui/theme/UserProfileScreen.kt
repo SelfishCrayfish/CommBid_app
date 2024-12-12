@@ -23,10 +23,16 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import coil3.compose.AsyncImage
 import com.example.commbidapp.CreatePostActivity
+import com.example.commbidapp.DescriptionRequest
 import com.example.commbidapp.R
+import com.example.commbidapp.RetrofitInstance
 import com.example.commbidapp.SomeoneProfileActivity
 import com.example.commbidapp.UserSession
 import com.example.commbidapp.WallViewModel
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 @Composable
@@ -34,13 +40,13 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
     val context = LocalContext.current
     val defaultUsername = stringResource(R.string.default_nickname)
     val defaultDescription = stringResource(R.string.your_description)
-    var nickname by remember { mutableStateOf(defaultUsername) }
+    var nickname by remember { mutableStateOf(UserSession.loggedUser.username) }
     var isEditingNickname by remember { mutableStateOf(false) }
 
-    var description by remember { mutableStateOf(defaultDescription) }
+    var description by remember { mutableStateOf(UserSession.loggedUser.about ?: "") }
     var isEditingDescription by remember { mutableStateOf(false) }
 
-    var isArtistSwitchChecked by remember { mutableStateOf(false) }
+    var isArtistSwitchChecked by remember { mutableStateOf(UserSession.loggedUser.isArtist) }
 
     // Begin Column to include both the profile and wall screen
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
@@ -138,9 +144,30 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
                         contentDescription = "Save Description"
                     )
                 } else {
+                    UserSession.loggedUser.id?.let { userId ->
+                        RetrofitInstance.userService.changeDescription(
+                            userId,
+                            DescriptionRequest(description)
+                        ).enqueue(object : Callback<ResponseBody> {
+                            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                                if (response.isSuccessful) {
+                                    // Handle success
+                                } else {
+                                    // Handle error response
+                                }
+                            }
+
+                            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                // Handle failure (e.g., network issue)
+                            }
+                        })
+                    }
+
                     Icon(
                         painter = painterResource(id = R.drawable.edit_pic),
                         contentDescription = "Edit Description"
+
+
                     )
                 }
             }

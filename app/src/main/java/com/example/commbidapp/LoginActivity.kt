@@ -78,6 +78,7 @@ class LoginActivity : ComponentActivity() {
                             highestPrice = loginResponse.highestPrice,
                             createdAt = loginResponse.createdAt,
                             passwordHash = "",
+                            about=loginResponse.about,
                             ratingsReceived = listOf()
                         )
 
