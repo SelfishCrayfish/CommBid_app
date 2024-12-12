@@ -13,6 +13,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.regex.Pattern
 
+object UserSession {
+    lateinit var loggedUser: User
+}
+
 class LoginActivity : ComponentActivity() {
 
     private lateinit var userService: UserService
@@ -54,29 +58,44 @@ class LoginActivity : ComponentActivity() {
 
         val call = RetrofitInstance.userService.login(loginRequest)
 
-        call.enqueue(object : Callback<String> {
-            override fun onResponse(call: Call<String>, response: Response<String>) {
+        call.enqueue(object : Callback<LoginResponse> {
+            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 if (response.isSuccessful) {
-                    val jwtToken = response.body()
-                    if (jwtToken != null) {
-                        Toast.makeText(this@LoginActivity, "Login Successful!", Toast.LENGTH_SHORT).show()
+                    val loginResponse = response.body()
+                    if (loginResponse != null) {
+                        // Save JWT to SharedPreferences
+                        saveJwtToken(loginResponse.jwt)
 
-                        // Store the JWT token if needed (e.g., in SharedPreferences)
-                        saveJwtToken(jwtToken)
+                        // Save User to UserSession
+                        UserSession.loggedUser = User(
+                            id = loginResponse.id,
+                            username = loginResponse.username,
+                            email = loginResponse.email,
+                            profilePicture = loginResponse.profilePicture,
+                            isArtist = loginResponse.isArtist,
+                            openForCommissions = loginResponse.openForCommissions,
+                            lowestPrice = loginResponse.lowestPrice,
+                            highestPrice = loginResponse.highestPrice,
+                            createdAt = loginResponse.createdAt,
+                            passwordHash = "",
+                            ratingsReceived = listOf()
+                        )
+
+                        Toast.makeText(this@LoginActivity, "Login Successful!", Toast.LENGTH_SHORT).show()
 
                         // Navigate to the next screen
                         setContent {
                             PagerScreen(pageNumber = 0)
                         }
                     } else {
-                        Toast.makeText(this@LoginActivity, "Failed to retrieve token!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@LoginActivity, "Failed to retrieve login response!", Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     Toast.makeText(this@LoginActivity, "Login failed: ${response.message()}", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            override fun onFailure(call: Call<String>, t: Throwable) {
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 Toast.makeText(this@LoginActivity, "Network error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })

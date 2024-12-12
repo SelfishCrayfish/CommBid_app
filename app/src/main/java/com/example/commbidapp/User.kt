@@ -18,9 +18,8 @@ data class User(
     val profilePicture: String?,
     val isArtist: Boolean,
     val openForCommissions: Boolean,
-    val lowestPrice: BigDecimal?,
-    val highestPrice: BigDecimal?,
+    val lowestPrice: Double?,
+    val highestPrice: Double?,
     val createdAt: String,
     val ratingsReceived: List<Rating> // Added ratingsReceived field
 )
-
