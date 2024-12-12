@@ -29,6 +29,7 @@ import com.example.commbidapp.RetrofitInstance
 import com.example.commbidapp.SomeoneProfileActivity
 import com.example.commbidapp.UserSession
 import com.example.commbidapp.WallViewModel
+import com.example.commbidapp.isArtistRequest
 import com.example.commbidapp.usernameRequest
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -95,13 +96,8 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
 
             IconButton(onClick = {
                 isEditingNickname = !isEditingNickname
-            }) {
-                if (isEditingNickname) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.save_pic),
-                        contentDescription = "Save Nickname"
-                    )
-                } else {
+                if (!isEditingNickname)
+                {
                     UserSession.loggedUser.id?.let { userId ->
                         RetrofitInstance.userService.changeUsername(
                             userId,
@@ -121,7 +117,14 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
                             }
                         })
                     }
-
+                }
+            }) {
+                if (isEditingNickname) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.save_pic),
+                        contentDescription = "Save Nickname"
+                    )
+                } else {
                     Icon(
                         painter = painterResource(id = R.drawable.edit_pic),
                         contentDescription = "Edit Nickname"
@@ -206,7 +209,27 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
         ) {
             Switch(
                 checked = isArtistSwitchChecked,
-                onCheckedChange = { isArtistSwitchChecked = it },
+                onCheckedChange = {
+                    isArtistSwitchChecked = it
+                    UserSession.loggedUser.id?.let { userId ->
+                        RetrofitInstance.userService.changeIsArtist(
+                            userId,
+                            isArtistRequest(isArtistSwitchChecked)
+                        ).enqueue(object : Callback<ResponseBody> {
+                            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                                if (response.isSuccessful) {
+                                    // Handle success
+                                } else {
+                                    // Handle error response
+                                }
+                            }
+
+                            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                // Handle failure (e.g., network issue)
+                            }
+                        })
+                    }
+                                  },
                 colors = SwitchDefaults.colors(
                     checkedThumbColor = Color.Black,
                     uncheckedThumbColor = Color.Gray
