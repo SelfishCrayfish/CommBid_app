@@ -72,7 +72,7 @@ class LoginActivity : ComponentActivity() {
                             username = loginResponse.username,
                             email = loginResponse.email,
                             profilePicture = loginResponse.profilePicture,
-                            isArtist = loginResponse.isArtist,
+                            artist = loginResponse.isArtist,
                             openForCommissions = loginResponse.openForCommissions,
                             lowestPrice = loginResponse.lowestPrice,
                             highestPrice = loginResponse.highestPrice,

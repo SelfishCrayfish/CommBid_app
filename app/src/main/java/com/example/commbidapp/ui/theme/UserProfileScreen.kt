@@ -1,6 +1,7 @@
 package com.example.commbidapp.ui.theme
 
 import android.content.Intent
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -29,7 +30,7 @@ import com.example.commbidapp.RetrofitInstance
 import com.example.commbidapp.SomeoneProfileActivity
 import com.example.commbidapp.UserSession
 import com.example.commbidapp.WallViewModel
-import com.example.commbidapp.isArtistRequest
+import com.example.commbidapp.ArtistRequest
 import com.example.commbidapp.usernameRequest
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -48,7 +49,7 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
     var description by remember { mutableStateOf(UserSession.loggedUser.about ?: "") }
     var isEditingDescription by remember { mutableStateOf(false) }
 
-    var isArtistSwitchChecked by remember { mutableStateOf(UserSession.loggedUser.isArtist) }
+    var isArtistSwitchChecked by remember { mutableStateOf(UserSession.loggedUser.artist) }
 
     // Begin Column to include both the profile and wall screen
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
@@ -105,15 +106,15 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
                         ).enqueue(object : Callback<ResponseBody> {
                             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                                 if (response.isSuccessful) {
-                                    // Handle success
-                                    // dont care
+                                    UserSession.loggedUser.username = nickname
                                 } else {
-                                    // Handle error response
+                                    nickname = UserSession.loggedUser.username
                                 }
                             }
 
                             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                                // Handle failure (e.g., network issue)
+                                nickname = UserSession.loggedUser.username
+                                Toast.makeText(context,"no internet connection",Toast.LENGTH_SHORT).show()
                             }
                         })
                     }
@@ -170,15 +171,15 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
                     ).enqueue(object : Callback<ResponseBody> {
                         override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                             if (response.isSuccessful) {
-                                // Handle success
-                                // dont care
+                                UserSession.loggedUser.about = description
                             } else {
-                                // Handle error response
+                                description = UserSession.loggedUser.about ?: ""
                             }
                         }
 
                         override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                            // Handle failure (e.g., network issue)
+                            description = UserSession.loggedUser.about ?: ""
+                            Toast.makeText(context,"no internet connection",Toast.LENGTH_SHORT).show()
                         }
                     })
                 }}
@@ -214,18 +215,20 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
                     UserSession.loggedUser.id?.let { userId ->
                         RetrofitInstance.userService.changeIsArtist(
                             userId,
-                            isArtistRequest(isArtistSwitchChecked)
+                            ArtistRequest(isArtistSwitchChecked)
                         ).enqueue(object : Callback<ResponseBody> {
                             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                                 if (response.isSuccessful) {
-                                    // Handle success
+                                    UserSession.loggedUser.artist = isArtistSwitchChecked
+
                                 } else {
-                                    // Handle error response
+                                    isArtistSwitchChecked = UserSession.loggedUser.artist
                                 }
                             }
 
                             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                                // Handle failure (e.g., network issue)
+                                isArtistSwitchChecked = UserSession.loggedUser.artist
+                                Toast.makeText(context,"no internet connection",Toast.LENGTH_SHORT).show()
                             }
                         })
                     }

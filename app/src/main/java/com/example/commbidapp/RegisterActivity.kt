@@ -46,7 +46,7 @@ class RegisterActivity : ComponentActivity() {
                             email = email,
                             passwordHash = password, // Normally hash the password
                             profilePicture = null,
-                            isArtist = false,
+                            artist = false,
                             openForCommissions = false,
                             lowestPrice = null,
                             highestPrice = null,
