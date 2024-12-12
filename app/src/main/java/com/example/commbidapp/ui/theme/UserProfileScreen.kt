@@ -25,6 +25,7 @@ import coil3.compose.AsyncImage
 import com.example.commbidapp.CreatePostActivity
 import com.example.commbidapp.R
 import com.example.commbidapp.SomeoneProfileActivity
+import com.example.commbidapp.UserSession
 import com.example.commbidapp.WallViewModel
 
 
@@ -191,6 +192,6 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        WallScreen(viewModel = viewModel)
+        WallScreen(viewModel = viewModel,userId = UserSession.loggedUser.id)
     }
 }

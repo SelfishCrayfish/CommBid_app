@@ -116,6 +116,7 @@ fun SomeoneProfileScreen(
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        WallScreen(viewModel = viewModel)
+        val id = 1
+        WallScreen(viewModel = viewModel, userId = id)
     }
 }

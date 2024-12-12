@@ -9,7 +9,7 @@ class WallActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            WallScreen()
+            WallScreen(userId = null)
         }
     }
 }
