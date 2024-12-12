@@ -80,14 +80,14 @@ fun PostItem(post: Post, navigateToProfile: (String) -> Unit) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Image(
+/*        Image(
             painter = BitmapPainter( decodeBase64ToImageBitmap(post.image)),
             contentDescription = "Post Image",
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp),
             contentScale = ContentScale.Crop
-        )
+        )*/
 
         Spacer(modifier = Modifier.height(8.dp))
 

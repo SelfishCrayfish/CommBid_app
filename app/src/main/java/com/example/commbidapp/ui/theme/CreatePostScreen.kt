@@ -22,10 +22,13 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.example.commbidapp.LoginActivity
+import com.example.commbidapp.Post
 import com.example.commbidapp.R
+import com.example.commbidapp.UserSession
 
 @Composable
-fun CreatePostScreen(onPostAdded: (String, Uri?) -> Unit, onCancel: () -> Unit) {
+fun CreatePostScreen(onPostAdded: (post : Post) -> Unit, onCancel: () -> Unit) {
     val context = LocalContext.current
     var postText by remember { mutableStateOf(TextFieldValue("")) }
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
@@ -104,9 +107,24 @@ fun CreatePostScreen(onPostAdded: (String, Uri?) -> Unit, onCancel: () -> Unit) 
                 text = stringResource(id = R.string.add_post),
                 onClick = {
                     if (postText.text.isNotBlank()) {
-                        onPostAdded(postText.text, selectedImageUri)
+                        val placeholderImage = "https://i.imgur.com/9iNdYSJ.jpeg"
+                        val post = UserSession.loggedUser?.let {
+                            Post(
+                                title = "Default Title", // Replace with actual title if needed
+                                body = postText.text,
+                                image = placeholderImage,
+                                user = it
+                            )
+                        }
+                        if (post != null) {
+                            onPostAdded(post)
+                        }
                     } else {
-                        onPostAdded("", null)
+                        Toast.makeText(
+                            context,
+                            R.string.post_must_have_text,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 },
                 fontFamily = RegularFont,
