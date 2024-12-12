@@ -41,12 +41,12 @@ fun PostItem(post: Post, navigateToProfile: (String) -> Unit) {
 
     // Profile picture loading
     val profilePictureBitmap by produceState<ImageBitmap?>(initialValue = null) {
-        value = decodeImageUrlToImageBitmap("https://i.imgur.com/6PC4d8g.jpeg")
+        value = decodeImageUrlToImageBitmap(post.user.profilePicture ?: "https://i.imgur.com/6PC4d8g.jpeg")
     }
 
     // Post image loading
     val postImageBitmap by produceState<ImageBitmap?>(initialValue = null) {
-        value = decodeImageUrlToImageBitmap("https://i.imgur.com/6PC4d8g.jpeg")
+        value = decodeImageUrlToImageBitmap(post.image)
     }
 
     Column(

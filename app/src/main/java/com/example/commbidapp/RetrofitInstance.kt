@@ -43,3 +43,13 @@ object RetrofitInstance {
         retrofit.create(PostService::class.java)
     }
 }
+
+
+object ImgurRetrofitInstance {
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("https://api.imgur.com/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    val imgurApiService: ImgurApiService = retrofit.create(ImgurApiService::class.java)
+}

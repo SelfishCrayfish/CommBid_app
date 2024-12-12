@@ -1,6 +1,9 @@
 package com.example.commbidapp.ui.theme
 
+import android.content.ContentResolver
+import android.content.Context
 import android.net.Uri
+import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -22,13 +25,64 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.example.commbidapp.ImgurRetrofitInstance
 import com.example.commbidapp.LoginActivity
 import com.example.commbidapp.Post
 import com.example.commbidapp.R
 import com.example.commbidapp.UserSession
+import kotlinx.coroutines.launch
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
+import java.io.FileOutputStream
 
+fun copyStreamToFile(uri: Uri,contentResolver: ContentResolver): File {
+    val outputFile = File.createTempFile("temp", null)
+
+    contentResolver.openInputStream(uri)?.use { input ->
+        val outputStream = FileOutputStream(outputFile)
+        outputStream.use { output ->
+            val buffer = ByteArray(4 * 1024) // buffer size
+            while (true) {
+                val byteCount = input.read(buffer)
+                if (byteCount < 0) break
+                output.write(buffer, 0, byteCount)
+            }
+            output.flush()
+        }
+    }
+    return outputFile
+}
+
+
+suspend fun uploadImageToImgur(uri: Uri,context : Context): String? {
+    val contentResolver: ContentResolver = context.contentResolver
+
+    // Convert URI to File
+    val file = copyStreamToFile(uri, contentResolver)
+    val requestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+    val multipartBody = MultipartBody.Part.createFormData("image", file.name, requestBody)
+
+    val response = ImgurRetrofitInstance.imgurApiService.uploadImage(
+        authorization = "Client-ID 3c31d57f7c8dab3", // Replace with your Imgur Client ID
+        image = multipartBody
+    )
+
+    return if (response.isSuccessful) {
+        response.body()?.data?.link // Return the image URL from Imgur
+    } else {
+        null
+    }
+}
 @Composable
 fun CreatePostScreen(onPostAdded: (post : Post) -> Unit, onCancel: () -> Unit) {
+
+
+    val coroutineScope = rememberCoroutineScope() // Get the coroutine scope
+
+
     val context = LocalContext.current
     var postText by remember { mutableStateOf(TextFieldValue("")) }
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
@@ -106,17 +160,21 @@ fun CreatePostScreen(onPostAdded: (post : Post) -> Unit, onCancel: () -> Unit) {
             CustomButton(
                 text = stringResource(id = R.string.add_post),
                 onClick = {
+                    val imageUri = selectedImageUri
+
                     if (postText.text.isNotBlank()) {
-                        val placeholderImage = "https://i.imgur.com/9iNdYSJ.jpeg"
-                        val post = UserSession.loggedUser?.let {
-                            Post(
+                        // Use LaunchedEffect to run the image upload and post addition asynchronously
+                        coroutineScope.launch {
+                            val uploadedImageLink = imageUri?.let { uri ->
+                                uploadImageToImgur(uri,context)
+                            } ?: "https://i.imgur.com/9iNdYSJ.jpeg" // Placeholder image if no image is selected
+
+                            val post = Post(
                                 title = "Default Title", // Replace with actual title if needed
                                 body = postText.text,
-                                image = placeholderImage,
-                                user = it
+                                image = uploadedImageLink,
+                                user = UserSession.loggedUser
                             )
-                        }
-                        if (post != null) {
                             onPostAdded(post)
                         }
                     } else {
@@ -133,4 +191,6 @@ fun CreatePostScreen(onPostAdded: (post : Post) -> Unit, onCancel: () -> Unit) {
             )
         }
     }
+
+
 }
