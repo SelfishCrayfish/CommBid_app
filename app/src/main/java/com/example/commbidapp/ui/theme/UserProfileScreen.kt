@@ -29,6 +29,7 @@ import com.example.commbidapp.RetrofitInstance
 import com.example.commbidapp.SomeoneProfileActivity
 import com.example.commbidapp.UserSession
 import com.example.commbidapp.WallViewModel
+import com.example.commbidapp.usernameRequest
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -101,6 +102,26 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
                         contentDescription = "Save Nickname"
                     )
                 } else {
+                    UserSession.loggedUser.id?.let { userId ->
+                        RetrofitInstance.userService.changeUsername(
+                            userId,
+                            usernameRequest(nickname)
+                        ).enqueue(object : Callback<ResponseBody> {
+                            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                                if (response.isSuccessful) {
+                                    // Handle success
+                                    // dont care
+                                } else {
+                                    // Handle error response
+                                }
+                            }
+
+                            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                // Handle failure (e.g., network issue)
+                            }
+                        })
+                    }
+
                     Icon(
                         painter = painterResource(id = R.drawable.edit_pic),
                         contentDescription = "Edit Nickname"
@@ -137,6 +158,28 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
 
             IconButton(onClick = {
                 isEditingDescription = !isEditingDescription
+
+                if (!isEditingDescription)
+                { UserSession.loggedUser.id?.let { userId ->
+                    RetrofitInstance.userService.changeDescription(
+                        userId,
+                        DescriptionRequest(description)
+                    ).enqueue(object : Callback<ResponseBody> {
+                        override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                            if (response.isSuccessful) {
+                                // Handle success
+                                // dont care
+                            } else {
+                                // Handle error response
+                            }
+                        }
+
+                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                            // Handle failure (e.g., network issue)
+                        }
+                    })
+                }}
+
             }) {
                 if (isEditingDescription) {
                     Icon(
@@ -144,24 +187,6 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
                         contentDescription = "Save Description"
                     )
                 } else {
-                    UserSession.loggedUser.id?.let { userId ->
-                        RetrofitInstance.userService.changeDescription(
-                            userId,
-                            DescriptionRequest(description)
-                        ).enqueue(object : Callback<ResponseBody> {
-                            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                                if (response.isSuccessful) {
-                                    // Handle success
-                                } else {
-                                    // Handle error response
-                                }
-                            }
-
-                            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                                // Handle failure (e.g., network issue)
-                            }
-                        })
-                    }
 
                     Icon(
                         painter = painterResource(id = R.drawable.edit_pic),

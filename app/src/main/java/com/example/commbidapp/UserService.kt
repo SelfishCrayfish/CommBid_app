@@ -27,6 +27,10 @@ data class DescriptionRequest(val about: String)
 
 data class PfpRequest(val image: String)
 
+data class usernameRequest(val username: String)
+
+data class isArtistRequest(val isArtist: Boolean)
+
 interface UserService {
     @POST("/api/auth/register")
     fun createUser(@Body user: User): Call<User>
@@ -46,7 +50,15 @@ interface UserService {
         @Body pfpRequest: PfpRequest
     ) : Call<ResponseBody>
 
+    @PUT("/api/users/{id}")
+    fun changeUsername(
+        @Path("id") userId: Int,
+        @Body usernameRequest: usernameRequest
+    ) : Call<ResponseBody>
 
-
-
+    @PUT("/api/users/{id}")
+    fun changeIsArtist(
+        @Path("id") userId: Int,
+        @Body isArtistRequest: isArtistRequest
+    ) : Call<ResponseBody>
 }
