@@ -1,20 +1,15 @@
 package com.example.commbidapp
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.example.commbidapp.ui.theme.CommissionScreen
-import com.example.commbidapp.ui.theme.MainScreenWithNavbar
 import com.example.commbidapp.ui.theme.UserProfileScreen
 
 class UserProfileActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MainScreenWithNavbar {
-                UserProfileScreen()
-            }
+            UserProfileScreen()
         }
     }
 }
