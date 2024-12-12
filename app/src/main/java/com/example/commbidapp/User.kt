@@ -12,14 +12,15 @@ data class Rating(
 
 data class User(
     val id : Int?,
-    val username: String,
+    var username: String,
     val email: String,
     val passwordHash: String,
     val profilePicture: String?,
-    val isArtist: Boolean,
+    var artist: Boolean,
     val openForCommissions: Boolean,
     val lowestPrice: Double?,
     val highestPrice: Double?,
     val createdAt: String,
+    var about: String?,
     val ratingsReceived: List<Rating> // Added ratingsReceived field
 )

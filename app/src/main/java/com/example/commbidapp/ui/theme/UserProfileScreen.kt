@@ -1,6 +1,7 @@
 package com.example.commbidapp.ui.theme
 
 import android.content.Intent
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -23,10 +24,18 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import coil3.compose.AsyncImage
 import com.example.commbidapp.CreatePostActivity
+import com.example.commbidapp.DescriptionRequest
 import com.example.commbidapp.R
+import com.example.commbidapp.RetrofitInstance
 import com.example.commbidapp.SomeoneProfileActivity
 import com.example.commbidapp.UserSession
 import com.example.commbidapp.WallViewModel
+import com.example.commbidapp.ArtistRequest
+import com.example.commbidapp.usernameRequest
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 @Composable
@@ -34,13 +43,13 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
     val context = LocalContext.current
     val defaultUsername = stringResource(R.string.default_nickname)
     val defaultDescription = stringResource(R.string.your_description)
-    var nickname by remember { mutableStateOf(defaultUsername) }
+    var nickname by remember { mutableStateOf(UserSession.loggedUser.username) }
     var isEditingNickname by remember { mutableStateOf(false) }
 
-    var description by remember { mutableStateOf(defaultDescription) }
+    var description by remember { mutableStateOf(UserSession.loggedUser.about ?: "") }
     var isEditingDescription by remember { mutableStateOf(false) }
 
-    var isArtistSwitchChecked by remember { mutableStateOf(false) }
+    var isArtistSwitchChecked by remember { mutableStateOf(UserSession.loggedUser.artist) }
 
     // Begin Column to include both the profile and wall screen
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
@@ -88,6 +97,28 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
 
             IconButton(onClick = {
                 isEditingNickname = !isEditingNickname
+                if (!isEditingNickname)
+                {
+                    UserSession.loggedUser.id?.let { userId ->
+                        RetrofitInstance.userService.changeUsername(
+                            userId,
+                            usernameRequest(nickname)
+                        ).enqueue(object : Callback<ResponseBody> {
+                            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                                if (response.isSuccessful) {
+                                    UserSession.loggedUser.username = nickname
+                                } else {
+                                    nickname = UserSession.loggedUser.username
+                                }
+                            }
+
+                            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                nickname = UserSession.loggedUser.username
+                                Toast.makeText(context,"no internet connection",Toast.LENGTH_SHORT).show()
+                            }
+                        })
+                    }
+                }
             }) {
                 if (isEditingNickname) {
                     Icon(
@@ -131,6 +162,28 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
 
             IconButton(onClick = {
                 isEditingDescription = !isEditingDescription
+
+                if (!isEditingDescription)
+                { UserSession.loggedUser.id?.let { userId ->
+                    RetrofitInstance.userService.changeDescription(
+                        userId,
+                        DescriptionRequest(description)
+                    ).enqueue(object : Callback<ResponseBody> {
+                        override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                            if (response.isSuccessful) {
+                                UserSession.loggedUser.about = description
+                            } else {
+                                description = UserSession.loggedUser.about ?: ""
+                            }
+                        }
+
+                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                            description = UserSession.loggedUser.about ?: ""
+                            Toast.makeText(context,"no internet connection",Toast.LENGTH_SHORT).show()
+                        }
+                    })
+                }}
+
             }) {
                 if (isEditingDescription) {
                     Icon(
@@ -138,9 +191,12 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
                         contentDescription = "Save Description"
                     )
                 } else {
+
                     Icon(
                         painter = painterResource(id = R.drawable.edit_pic),
                         contentDescription = "Edit Description"
+
+
                     )
                 }
             }
@@ -154,7 +210,29 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
         ) {
             Switch(
                 checked = isArtistSwitchChecked,
-                onCheckedChange = { isArtistSwitchChecked = it },
+                onCheckedChange = {
+                    isArtistSwitchChecked = it
+                    UserSession.loggedUser.id?.let { userId ->
+                        RetrofitInstance.userService.changeIsArtist(
+                            userId,
+                            ArtistRequest(isArtistSwitchChecked)
+                        ).enqueue(object : Callback<ResponseBody> {
+                            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                                if (response.isSuccessful) {
+                                    UserSession.loggedUser.artist = isArtistSwitchChecked
+
+                                } else {
+                                    isArtistSwitchChecked = UserSession.loggedUser.artist
+                                }
+                            }
+
+                            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                isArtistSwitchChecked = UserSession.loggedUser.artist
+                                Toast.makeText(context,"no internet connection",Toast.LENGTH_SHORT).show()
+                            }
+                        })
+                    }
+                                  },
                 colors = SwitchDefaults.colors(
                     checkedThumbColor = Color.Black,
                     uncheckedThumbColor = Color.Gray
