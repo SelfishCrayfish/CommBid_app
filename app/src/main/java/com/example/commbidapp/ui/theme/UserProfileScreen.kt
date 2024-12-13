@@ -7,6 +7,7 @@ import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -19,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
@@ -38,6 +40,7 @@ import com.example.commbidapp.WallViewModel
 import com.example.commbidapp.ArtistRequest
 import com.example.commbidapp.ImgurApiService
 import com.example.commbidapp.PfpRequest
+import com.example.commbidapp.decodeImageUrlToImageBitmap
 import com.example.commbidapp.usernameRequest
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
@@ -122,6 +125,18 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
 
     var isArtistSwitchChecked by remember { mutableStateOf(UserSession.loggedUser.artist) }
 
+
+
+    // State for storing the decoded image bitmap
+    var imageBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
+
+    // Load image asynchronously using LaunchedEffect to call the suspend function
+    LaunchedEffect(UserSession.loggedUser.profilePicture) {
+        val profilePictureUrl = UserSession.loggedUser.profilePicture
+        profilePictureUrl?.let {
+            imageBitmap = decodeImageUrlToImageBitmap(it) // Call suspend function here
+        }
+    }
     // Begin Column to include both the profile and wall screen
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         // Profile Section
@@ -129,15 +144,29 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            AsyncImage(
-                model = R.drawable.profile_pic,
-                contentDescription = "Profile Image",
-                modifier = Modifier
-                    .size(90.dp)
-                    .clickable {onProfileImageClick() }
-                    .clip(CircleShape),
-                contentScale = ContentScale.FillBounds
-            )
+            imageBitmap?.let {
+                Image(
+                    bitmap = it,
+                    contentDescription = "Profile Image",
+                    modifier = Modifier
+                        .size(90.dp)
+                        .clickable { onProfileImageClick() }
+                        .clip(CircleShape),
+                    contentScale = ContentScale.FillBounds
+                )
+            } ?: run {
+                // Fallback image if imageBitmap is null
+                Image(
+                    painter = painterResource(id = R.drawable.profile_pic),
+                    contentDescription = "Profile Image",
+                    modifier = Modifier
+                        .size(90.dp)
+                        .clickable { onProfileImageClick() }
+                        .clip(CircleShape),
+                    contentScale = ContentScale.FillBounds
+                )
+            }
+        }
 
             Spacer(modifier = Modifier.width(16.dp))
 
@@ -345,4 +374,4 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
         }
         WallScreen(viewModel = viewModel,userId = UserSession.loggedUser.id)
     }
-}
+
