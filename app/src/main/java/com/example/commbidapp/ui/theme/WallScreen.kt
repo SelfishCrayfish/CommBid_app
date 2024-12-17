@@ -33,9 +33,9 @@ fun WallScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.compose.v
     val context = LocalContext.current
 
     // Function to navigate to the user profile screen
-    fun navigateToProfile(username: String) {
+    fun navigateToProfile(userId: String) {
         val intent = Intent(context, SomeoneProfileActivity::class.java)
-        intent.putExtra("USERNAME", username)
+        intent.putExtra("userId", userId.toInt())
         context.startActivity(intent)
     }
 

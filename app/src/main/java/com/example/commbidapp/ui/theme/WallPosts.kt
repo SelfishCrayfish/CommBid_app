@@ -67,7 +67,7 @@ fun PostItem(post: Post, navigateToProfile: (String) -> Unit) {
                     modifier = Modifier
                         .size(40.dp)
                         .padding(4.dp)
-                        .clickable { navigateToProfile(post.user.username) }
+                        .clickable { navigateToProfile(post.user.id.toString()) }
                         .clip(CircleShape)
                 )
             }

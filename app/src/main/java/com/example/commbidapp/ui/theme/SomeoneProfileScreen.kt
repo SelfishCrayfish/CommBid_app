@@ -1,5 +1,6 @@
 package com.example.commbidapp.ui.theme
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.clickable
@@ -100,7 +101,8 @@ fun SomeoneProfileScreen(
                 modifier = Modifier.width(180.dp)
             )
         }
-        val id = 1
-        WallScreen(viewModel = viewModel, userId = id)
+        WallScreen(viewModel = viewModel,
+            userId = (LocalContext.current as? SomeoneProfileActivity)?.intent?.getIntExtra("userId", -1) ?: -1
+        )
     }
 }
