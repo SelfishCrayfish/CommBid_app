@@ -1,5 +1,6 @@
 package com.example.commbidapp.ui.theme
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -16,12 +17,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.commbidapp.Post
+import com.example.commbidapp.PostActivity
 import com.example.commbidapp.R
+import com.example.commbidapp.SomeoneProfileActivity
 import com.example.commbidapp.decodeImageUrlToImageBitmap
 import kotlinx.coroutines.runBlocking
 
@@ -40,7 +44,7 @@ fun WallPosts(posts: List<Post>, navigateToProfile: (String) -> Unit) {
 @Composable
 fun PostItem(post: Post, navigateToProfile: (String) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
-
+    val context = LocalContext.current
     // Profile picture loading
     val profilePictureBitmap by produceState<ImageBitmap?>(initialValue = null) {
         value = decodeImageUrlToImageBitmap(post.user.profilePicture ?: "https://i.imgur.com/6PC4d8g.jpeg")
@@ -49,6 +53,11 @@ fun PostItem(post: Post, navigateToProfile: (String) -> Unit) {
     // Post image loading
     val postImageBitmap by produceState<ImageBitmap?>(initialValue = null) {
         value = decodeImageUrlToImageBitmap(post.image)
+    }
+
+    fun navigateToPost() {
+        val intent = Intent(context, PostActivity::class.java)
+        context.startActivity(intent)
     }
 
     Column(
@@ -100,7 +109,9 @@ fun PostItem(post: Post, navigateToProfile: (String) -> Unit) {
             IconButton(onClick = { }) {
                 Icon(painterResource(R.drawable.like_pic), contentDescription = "Reakcja")
             }
-            IconButton(onClick = { }) {
+            IconButton(onClick = {
+                navigateToPost()
+            }) {
                 Icon(painterResource(R.drawable.comment_pic), contentDescription = "Komentarz")
             }
             IconButton(onClick = { }) {
