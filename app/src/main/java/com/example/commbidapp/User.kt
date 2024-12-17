@@ -15,7 +15,7 @@ data class User(
     var username: String,
     val email: String,
     val passwordHash: String,
-    val profilePicture: String?,
+    var profilePicture: String?,
     var artist: Boolean,
     val openForCommissions: Boolean,
     val lowestPrice: Double?,

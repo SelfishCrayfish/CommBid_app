@@ -53,68 +53,70 @@ import retrofit2.Response
 @Composable
 fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
     val context = LocalContext.current
-    val coroutineScope = rememberCoroutineScope() // Remember a coroutine scope for launching coroutines
+    val coroutineScope =
+        rememberCoroutineScope() // Remember a coroutine scope for launching coroutines
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
 
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
-    ) {  uri: Uri? ->
+    ) { uri: Uri? ->
         selectedImageUri = uri
-            if (selectedImageUri != null) {
-                coroutineScope.launch {
-                    try {
-                        // Call the suspend function for image upload
-                        val uploadedImageUrl = uploadImageToImgur(selectedImageUri!!, context)
-                        println(uploadedImageUrl)
-                        UserSession.loggedUser.id?.let { userId ->
-                            uploadedImageUrl?.let { imageUrl: String ->
-                                val pfpRequest = PfpRequest(imageUrl)
+        if (selectedImageUri != null) {
+            coroutineScope.launch {
+                try {
+                    // Call the suspend function for image upload
+                    val uploadedImageUrl = uploadImageToImgur(selectedImageUri!!, context)
+                    println(uploadedImageUrl)
+                    UserSession.loggedUser.id?.let { userId ->
+                        uploadedImageUrl?.let { imageUrl: String ->
+                            val pfpRequest = PfpRequest(imageUrl)
 
-                                // Make the Retrofit call asynchronously using enqueue
-                                RetrofitInstance.userService.changePfp(userId, pfpRequest)
-                                    .enqueue(object : Callback<ResponseBody> {
-                                        override fun onResponse(
-                                            call: Call<ResponseBody>,
-                                            response: Response<ResponseBody>
-                                        ) {
-                                            if (response.isSuccessful) {
-                                                // Handle success
-                                                val responseBody = response.body()
-                                                responseBody?.let {
-                                                    println("Profile picture updated successfully: ${it.string()}")
-                                                }
-                                            } else {
-                                                // Handle error response
-                                                val errorBody = response.errorBody()?.string()
-                                                println("Error updating profile picture: $errorBody")
+                            // Make the Retrofit call asynchronously using enqueue
+                            RetrofitInstance.userService.changePfp(userId, pfpRequest)
+                                .enqueue(object : Callback<ResponseBody> {
+                                    override fun onResponse(
+                                        call: Call<ResponseBody>,
+                                        response: Response<ResponseBody>
+                                    ) {
+                                        if (response.isSuccessful) {
+                                            // Handle success
+                                            val responseBody = response.body()
+                                            responseBody?.let {
+                                                UserSession.loggedUser.profilePicture = uploadedImageUrl
+                                                println("Profile picture updated successfully: ${it.string()}")
                                             }
+                                        } else {
+                                            // Handle error response
+                                            val errorBody = response.errorBody()?.string()
+                                            println("Error updating profile picture: $errorBody")
                                         }
+                                    }
 
-                                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                                            // Handle failure, e.g., show a toast or log the error
-                                            t.printStackTrace()
-                                            println("Failed to update profile picture: ${t.message}")
-                                        }
-                                    })
-                            }
+                                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                        // Handle failure, e.g., show a toast or log the error
+                                        t.printStackTrace()
+                                        println("Failed to update profile picture: ${t.message}")
+                                    }
+                                })
                         }
-                    } catch (e: Exception) {
-                        // Handle exceptions from the upload function
-                        e.printStackTrace()
-                        println("Failed to upload image: ${e.message}")
                     }
+                } catch (e: Exception) {
+                    // Handle exceptions from the upload function
+                    e.printStackTrace()
+                    println("Failed to upload image: ${e.message}")
                 }
             }
+        }
 
     }
-
 
 
     fun onProfileImageClick() {
         // Launch the image picker
         launcher.launch("image/*") // Trigger the image picker with image MIME type
     }
+
     val defaultUsername = stringResource(R.string.default_nickname)
     val defaultDescription = stringResource(R.string.your_description)
     var nickname by remember { mutableStateOf(UserSession.loggedUser.username) }
@@ -124,7 +126,6 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
     var isEditingDescription by remember { mutableStateOf(false) }
 
     var isArtistSwitchChecked by remember { mutableStateOf(UserSession.loggedUser.artist) }
-
 
 
     // State for storing the decoded image bitmap
@@ -168,43 +169,45 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
             }
         }
 
-            Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(16.dp))
 
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
-                if (isEditingNickname) {
-                    OutlinedTextField(
-                        value = nickname,
-                        onValueChange = { newNickname -> nickname = newNickname },
-                        label = { Text(stringResource(id = R.string.nickname)) },
-                        modifier = Modifier.fillMaxWidth(),
-                        singleLine = true
-                    )
-                } else {
-                    Text(
-                        text = nickname,
-                        fontSize = 22.sp,
-                        color = Color.Black
-                    )
-                }
-
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+            if (isEditingNickname) {
+                OutlinedTextField(
+                    value = nickname,
+                    onValueChange = { newNickname -> nickname = newNickname },
+                    label = { Text(stringResource(id = R.string.nickname)) },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true
+                )
+            } else {
                 Text(
-                    text = stringResource(id = R.string.default_username),
-                    color = Color.Gray
+                    text = nickname,
+                    fontSize = 22.sp,
+                    color = Color.Black
                 )
             }
 
+            Text(
+                text = stringResource(id = R.string.default_username),
+                color = Color.Gray
+            )
+
+
             IconButton(onClick = {
                 isEditingNickname = !isEditingNickname
-                if (!isEditingNickname)
-                {
+                if (!isEditingNickname) {
                     UserSession.loggedUser.id?.let { userId ->
                         RetrofitInstance.userService.changeUsername(
                             userId,
                             usernameRequest(nickname)
                         ).enqueue(object : Callback<ResponseBody> {
-                            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                            override fun onResponse(
+                                call: Call<ResponseBody>,
+                                response: Response<ResponseBody>
+                            ) {
                                 if (response.isSuccessful) {
                                     UserSession.loggedUser.username = nickname
                                 } else {
@@ -214,7 +217,11 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
 
                             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                                 nickname = UserSession.loggedUser.username
-                                Toast.makeText(context,"no internet connection",Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    "no internet connection",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         })
                     }
@@ -263,26 +270,34 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
             IconButton(onClick = {
                 isEditingDescription = !isEditingDescription
 
-                if (!isEditingDescription)
-                { UserSession.loggedUser.id?.let { userId ->
-                    RetrofitInstance.userService.changeDescription(
-                        userId,
-                        DescriptionRequest(description)
-                    ).enqueue(object : Callback<ResponseBody> {
-                        override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                            if (response.isSuccessful) {
-                                UserSession.loggedUser.about = description
-                            } else {
-                                description = UserSession.loggedUser.about ?: ""
+                if (!isEditingDescription) {
+                    UserSession.loggedUser.id?.let { userId ->
+                        RetrofitInstance.userService.changeDescription(
+                            userId,
+                            DescriptionRequest(description)
+                        ).enqueue(object : Callback<ResponseBody> {
+                            override fun onResponse(
+                                call: Call<ResponseBody>,
+                                response: Response<ResponseBody>
+                            ) {
+                                if (response.isSuccessful) {
+                                    UserSession.loggedUser.about = description
+                                } else {
+                                    description = UserSession.loggedUser.about ?: ""
+                                }
                             }
-                        }
 
-                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                            description = UserSession.loggedUser.about ?: ""
-                            Toast.makeText(context,"no internet connection",Toast.LENGTH_SHORT).show()
-                        }
-                    })
-                }}
+                            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                description = UserSession.loggedUser.about ?: ""
+                                Toast.makeText(
+                                    context,
+                                    "no internet connection",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        })
+                    }
+                }
 
             }) {
                 if (isEditingDescription) {
@@ -317,7 +332,10 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
                             userId,
                             ArtistRequest(isArtistSwitchChecked)
                         ).enqueue(object : Callback<ResponseBody> {
-                            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                            override fun onResponse(
+                                call: Call<ResponseBody>,
+                                response: Response<ResponseBody>
+                            ) {
                                 if (response.isSuccessful) {
                                     UserSession.loggedUser.artist = isArtistSwitchChecked
 
@@ -328,11 +346,15 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
 
                             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                                 isArtistSwitchChecked = UserSession.loggedUser.artist
-                                Toast.makeText(context,"no internet connection",Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    "no internet connection",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         })
                     }
-                                  },
+                },
                 colors = SwitchDefaults.colors(
                     checkedThumbColor = Color.Black,
                     uncheckedThumbColor = Color.Gray
@@ -372,6 +394,6 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
                 }
             }
         }
-        WallScreen(viewModel = viewModel,userId = UserSession.loggedUser.id)
+        WallScreen(viewModel = viewModel, userId = UserSession.loggedUser.id)
     }
-
+}
