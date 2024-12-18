@@ -22,12 +22,14 @@ class PostActivity : ComponentActivity() {
                         email = "email",
                         passwordHash = "pwdhash",
                         profilePicture = "https://i.imgur.com/6PC4d8g.jpeg",
-                        isArtist = false,
+                        artist = false,
                         openForCommissions = false,
                         lowestPrice = 0.0,
                         highestPrice = 1.0,
                         createdAt = "01.01.1970",
-                        ratingsReceived = emptyList()
+                        ratingsReceived = emptyList(),
+                        about="",
+
                     ),
                 ), comments = emptyList()
             )
