@@ -34,5 +34,7 @@ data class Post(
     val image: String,
     val user: User
 )
-
-
+data class UserComment(
+    val user: User,
+    val text: String
+)
