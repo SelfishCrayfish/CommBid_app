@@ -42,4 +42,6 @@
     <string name="post_must_have_text">Post musi posiadać tekst</string>
     <string name="close">Zamknij</string>
     <string name="select_language">Zmień język</string>
+    <string name="post_added_successfully">Post added successfully</string>
+    <string name="add_comment">Add comment…</string>
 </resources>
