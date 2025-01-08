@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.example.commbidapp.CreatePostActivity
+import com.example.commbidapp.OrderCommission
 import com.example.commbidapp.R
 import com.example.commbidapp.UserSession
 import com.example.commbidapp.WallViewModel
@@ -36,7 +37,6 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
 
     var isArtistSwitchChecked by remember { mutableStateOf(false) }
 
-    // Begin Column to include both the profile and wall screen
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         // Profile Section
         Row(
@@ -159,35 +159,29 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
                 text = stringResource(id = R.string.artist_switch),
                 color = Color.Black,
                 fontSize = 18.sp,
-                modifier = Modifier.weight(1f) // Wypełnia przestrzeń między przełącznikiem a nowymi elementami
+                modifier = Modifier.weight(1f)
             )
 
-            if (isArtistSwitchChecked) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.add_post),
-                        color = Color.Black,
-                        fontSize = 18.sp,
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
-                    IconButton(
-                        onClick = {
-                            context.startActivity(Intent(context, CreatePostActivity::class.java))
-                        },
-                        modifier = Modifier.align(Alignment.CenterVertically)
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.plus_icon),
-                            contentDescription = "Add Work",
-                            tint = Color.Black,
-                            modifier = Modifier.size(48.dp)
-                        )
-                    }
-                }
+            // Dodanie przycisku obok "Artist Switch"
+            Button(
+                onClick = {
+                    val intent = Intent(context, OrderCommission::class.java)
+                    context.startActivity(intent)
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3)), // Niebiesko-błękitny kolor
+                modifier = Modifier.padding(start = 8.dp)
+            ) {
+                Text(
+                    text = "Commissions",
+                    color = Color.White
+                )
             }
         }
-        WallScreen(viewModel = viewModel,userId = UserSession.loggedUser.id)
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        WallScreen(viewModel = viewModel, userId = UserSession.loggedUser.id)
     }
 }
+
+

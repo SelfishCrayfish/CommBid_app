@@ -18,8 +18,8 @@
         <activity
             android:name=".PostActivity"
             android:exported="false"
-            android:label="@string/title_activity_post"
             android:theme="@style/Theme.CommBidApp" />
+        <!--android:label="@string/title_activity_post" -->
         <activity
             android:name=".CreatePostActivity"
             android:exported="false"
@@ -54,6 +54,11 @@
             android:name=".LoginActivity"
             android:exported="false"
             android:label="@string/title_activity_login"
+            android:theme="@style/Theme.CommBidApp" />
+        <activity
+            android:name=".OrderCommission"
+            android:exported="false"
+            android:label="@string/title_activity_create_post"
             android:theme="@style/Theme.CommBidApp" />
         <activity
             android:name=".SplashActivity"
