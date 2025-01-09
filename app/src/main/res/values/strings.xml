@@ -43,5 +43,6 @@
     <string name="post_must_have_text">Post must have text</string>
     <string name="close">Close</string>
     <string name="select_language">Change language</string>
-    <string name="post_added_successfully">post added successfully</string>
+    <string name="post_added_successfully">Udało się dodać post</string>
+    <string name="add_comment">Dodaj komentarz…</string>
 </resources>

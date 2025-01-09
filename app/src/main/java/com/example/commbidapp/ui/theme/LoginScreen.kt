@@ -72,7 +72,7 @@ fun LoginTabletLayout(isLandscape: Boolean, onLoginSuccess: (String, String) -> 
                     username = it
                 }
             },
-            label = { Text("Username") },
+            label = { stringResource(id = R.string.username_string) },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
             modifier = Modifier.width(400.dp),
             singleLine = true,
@@ -157,7 +157,7 @@ fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: (String, String) -> U
                             username = it
                         }
                     },
-                    label = { Text("Username") },
+                    label = { stringResource(id = R.string.proceed) },
                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
                     modifier = Modifier.width(400.dp),
                     singleLine = true,
@@ -228,7 +228,7 @@ fun LoginPhoneLayout(isLandscape: Boolean, onLoginSuccess: (String, String) -> U
                         username = it
                     }
                 },
-                label = { Text("Username") },
+                label = { stringResource(id = R.string.proceed) },
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
                 modifier = Modifier.width(400.dp),
                 singleLine = true,

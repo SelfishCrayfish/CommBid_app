@@ -3,28 +3,22 @@ package com.example.commbidapp.ui.theme
 import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat.startActivity
 import coil3.compose.AsyncImage
 import com.example.commbidapp.CreatePostActivity
 import com.example.commbidapp.R
-import com.example.commbidapp.SomeoneProfileActivity
 import com.example.commbidapp.UserSession
 import com.example.commbidapp.WallViewModel
 
@@ -194,15 +188,6 @@ fun UserProfileScreen(viewModel: WallViewModel = androidx.lifecycle.viewmodel.co
                 }
             }
         }
-
-
-
-//        Spacer(modifier = Modifier.height(16.dp))
-
-
-
-//        Spacer(modifier = Modifier.height(32.dp))
-
         WallScreen(viewModel = viewModel,userId = UserSession.loggedUser.id)
     }
 }

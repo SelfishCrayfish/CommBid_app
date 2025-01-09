@@ -34,12 +34,7 @@ fun SomeoneProfileScreen(
 
     var description by remember { mutableStateOf("Opis artysty...") }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .verticalScroll(rememberScrollState()),
-    ) {
+    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
@@ -71,14 +66,6 @@ fun SomeoneProfileScreen(
                     color = Color.Gray
                 )
             }
-
-            CustomButton(
-                text = stringResource(id = R.string.follow),
-                onClick = { },
-                modifier = Modifier.width(170.dp),
-                backgroundColor = CelestialBlueColor,
-                fontFamily = RegularFont
-            )
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -91,8 +78,6 @@ fun SomeoneProfileScreen(
                 .padding(end = 16.dp)
         )
 
-        Spacer(modifier = Modifier.weight(1f))
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -100,22 +85,21 @@ fun SomeoneProfileScreen(
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             CustomButton(
-                text = stringResource(id = R.string.portfolio),
-                onClick = { },
-                backgroundColor = CelestialBlueColor,
-                fontFamily = RegularFont
-            )
-
-            CustomButton(
                 text = stringResource(id = R.string.commission),
                 onClick = { onCommissionButtonClick() },
                 backgroundColor = CelestialBlueColor,
-                fontFamily = RegularFont
+                fontFamily = RegularFont,
+                modifier = Modifier.width(180.dp)
+            )
+
+            CustomButton(
+                text = stringResource(id = R.string.follow),
+                onClick = { },
+                backgroundColor = CelestialBlueColor,
+                fontFamily = RegularFont,
+                modifier = Modifier.width(180.dp)
             )
         }
-
-        Spacer(modifier = Modifier.height(32.dp))
-
         val id = 1
         WallScreen(viewModel = viewModel, userId = id)
     }

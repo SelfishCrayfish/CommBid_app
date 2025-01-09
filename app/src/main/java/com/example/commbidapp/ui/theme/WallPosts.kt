@@ -1,25 +1,31 @@
 package com.example.commbidapp.ui.theme
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.commbidapp.Post
+import com.example.commbidapp.PostActivity
 import com.example.commbidapp.R
+import com.example.commbidapp.SomeoneProfileActivity
 import com.example.commbidapp.decodeImageUrlToImageBitmap
 import kotlinx.coroutines.runBlocking
 
@@ -38,7 +44,7 @@ fun WallPosts(posts: List<Post>, navigateToProfile: (String) -> Unit) {
 @Composable
 fun PostItem(post: Post, navigateToProfile: (String) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
-
+    val context = LocalContext.current
     // Profile picture loading
     val profilePictureBitmap by produceState<ImageBitmap?>(initialValue = null) {
         value = decodeImageUrlToImageBitmap(post.user.profilePicture ?: "https://i.imgur.com/6PC4d8g.jpeg")
@@ -47,6 +53,11 @@ fun PostItem(post: Post, navigateToProfile: (String) -> Unit) {
     // Post image loading
     val postImageBitmap by produceState<ImageBitmap?>(initialValue = null) {
         value = decodeImageUrlToImageBitmap(post.image)
+    }
+
+    fun navigateToPost() {
+        val intent = Intent(context, PostActivity::class.java)
+        context.startActivity(intent)
     }
 
     Column(
@@ -65,7 +76,8 @@ fun PostItem(post: Post, navigateToProfile: (String) -> Unit) {
                     modifier = Modifier
                         .size(40.dp)
                         .padding(4.dp)
-                        .clickable { navigateToProfile(post.user.username) } // Kliknięcie na zdjęcie profilowe
+                        .clickable { navigateToProfile(post.user.username) }
+                        .clip(CircleShape)
                 )
             }
             Spacer(modifier = Modifier.width(8.dp))
@@ -97,7 +109,9 @@ fun PostItem(post: Post, navigateToProfile: (String) -> Unit) {
             IconButton(onClick = { }) {
                 Icon(painterResource(R.drawable.like_pic), contentDescription = "Reakcja")
             }
-            IconButton(onClick = { }) {
+            IconButton(onClick = {
+                navigateToPost()
+            }) {
                 Icon(painterResource(R.drawable.comment_pic), contentDescription = "Komentarz")
             }
             IconButton(onClick = { }) {
@@ -118,14 +132,5 @@ fun PostItem(post: Post, navigateToProfile: (String) -> Unit) {
         )
 
         Spacer(modifier = Modifier.height(4.dp))
-
-        Text(
-            text = if (expanded) "Zobacz mniej..." else "Zobacz więcej...",
-            color = Color.Blue,
-            fontSize = 12.sp,
-            modifier = Modifier
-                .clickable { expanded = !expanded }
-                .padding(top = 4.dp)
-        )
     }
 }

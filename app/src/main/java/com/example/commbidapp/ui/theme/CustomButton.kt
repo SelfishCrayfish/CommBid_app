@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -36,6 +37,7 @@ fun CustomButton(
         Text(
             text = text,
             color = textColor,
+            textAlign = TextAlign.Center,
             style = TextStyle(
                 fontSize = 20.sp,
                 fontFamily = fontFamily ?: FontFamily.Default
